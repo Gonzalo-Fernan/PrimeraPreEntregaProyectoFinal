@@ -146,18 +146,3 @@ export default class ProductManager {
         
     }
 }
-
-//const PATH = "./products.json"
-//const ProductHandler = new ProductManager(PATH)
-
-    //await ProductHandler.addProduct({title: "Monitor", description: "Monitor Samsung 27 pulgadas",price: 200000, thumbnail: "samsung.com/monitores", code: 2510, stock: 12, status: true, category: "electronica"})
-    //await ProductHandler.addProduct({title:"Teclado", description: "teclado mecanico bla bla", price: 18500, thumbnail: "miteclado.com/mecanico", code: 220, stock: 25, status: true, category: "eletronica"})
-    //await ProductHandler.addProduct("mouse", "mouse optico hjsdhjhasd", 15000, "mousesjsjjs.com/mouse", 221, 85)
-    //await ProductHandler.addProduct("cableHDMI", "clableBla-bla", 3000, "mousesjsjjs.com/mouse", 252, 15)
- 
-
-    //console.log(await ProductHandler.getProductById(4)) 
-    //await ProductHandler.updateProduct( 1, { title: "Teclado Inalambrico"})
-    //await ProductHandler.deleteProduct(3)
-    //console.log(await ProductHandler.getProducts())
- 

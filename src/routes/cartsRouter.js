@@ -7,7 +7,6 @@ import { randomUUID } from "crypto";
 const cartsRouter = Router()
 export default cartsRouter
 
-const port = 8080
 const PATH = "./src/products.json"
 const cartPath = "./src/carts.json"
 const products = new ProductManager(PATH)
