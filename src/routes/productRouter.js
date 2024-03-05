@@ -1,11 +1,11 @@
 import { Router } from "express";
-import ProductManager from "../index.js";
+import ProductManager from "../managers/products.manager.js";
 
 const productsRouter = Router()
 export default productsRouter
 
 const port = 8080
-const PATH = "./src/products.json"
+const PATH = "./src/data/products.json"
 
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts()

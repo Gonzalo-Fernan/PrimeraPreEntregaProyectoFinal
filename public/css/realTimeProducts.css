@@ -1,0 +1,171 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+   
+}
+
+#mainConteiner{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-self: start;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(0, 0, 0);
+    color: snow;
+
+}
+
+#innerConteiner{
+    width: 100%;
+    height: 300vh;
+    padding: 15px;
+    display: flex;
+    margin-top: 20px;
+    gap: 200px;
+    border-radius: 30px;
+    font-family: sans-serif;
+
+
+}
+.title{
+    font-family: sans-serif;
+    font-size: 2rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: rgb(255, 251, 10);
+
+   
+}
+.listConteiner{
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    height: fit-content;
+    width: 40%;
+    padding: 10px;
+    gap: 40px;
+    border-radius: 15px;
+    color: snow;
+    margin-left: 50px;
+}
+.listConteiner h2{
+    color: rgb(255, 251, 10);
+
+}
+.list{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px; 
+    width: 100%;
+    padding: 10px;
+    /* display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    align-items: start;
+    justify-content: center;  */
+    list-style: none;
+
+}
+
+.productos{
+    width: 100%;
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    background-color: rgb(32, 41, 53);
+    padding: 15px;
+    border-radius: 15px;
+}
+.formsConteiner{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 35%;
+}
+.addForm{
+    width: 100%;
+    height: fit-content ;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 40px;
+    border-radius: 30px;
+    background-color: rgb(32, 41, 53);
+    color: snow;
+}
+.addForm h3{
+    color: rgb(255, 251, 10);
+
+}
+.addForm form{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+}
+.addForm form input{
+    width: 100%;
+    height: 40px;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+}
+.addForm form button{
+    margin-top: 30px;
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 150px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(16, 179, 16);
+    color: snow;
+}
+
+
+.deleteForm{
+    width: 100%;
+    height: 150px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 30px;
+    background-color: rgb(32, 41, 53);
+    color: snow;
+    margin-right: 15px;
+}
+.deleteForm h3{
+    color: rgb(255, 251, 10);
+
+}
+
+#delete{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.deleteForm form input{
+    width: 50%;
+    height: 30px;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+}
+.deleteForm form button{
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 150px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(212, 29, 29);
+    color: snow;
+}

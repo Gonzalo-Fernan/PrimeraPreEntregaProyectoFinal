@@ -1,0 +1,30 @@
+<section class="mainConteiner">
+    <h1 class="title"> Productos </h1>
+    <article class="listConteiner">
+        <ul class="productList">
+            {{#each getAllProducts}}
+                <div class="productConteiner">
+                    <li>id: {{this.id}}</li>
+                    <li class="name">Nombre: {{this.title}}</li>
+                    <li>Descripcion: {{this.description}}</li>
+                    <li>Precio: {{this.price}}</li>
+                    <li>Miniatura: {{this.thumbnail}}</li>
+                    <li>Codigo: {{this.code}}</li>
+                    <li>Stock: {{this.stock}}</li>
+                    <li>Estatus: {{this.status}}</li>
+                    <li>Categoria: {{this.category}}</li>
+                    <p></p>
+                </div>
+            {{/each}}
+            
+        </ul>
+        
+        
+        
+    </article>
+</section>
+
+
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/home.js"></script>

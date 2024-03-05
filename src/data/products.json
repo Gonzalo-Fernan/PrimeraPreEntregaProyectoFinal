@@ -1,0 +1,8 @@
+[{"id": 1,"title": "tablet",
+"description": "tablet lenovo 12 pulgadas",
+"price": "250000",
+"thumbnail":"www.pcmundo.com/tablet/lenovo",
+"code": "25142511",
+"stock":"5",
+"status": "true",
+"category": "electronica"},{"id":2,"title":"monitor","description":"Monitor Samsung 27 pulgadas","price":200000,"thumbnail":"samsung.com/monitores","code":9,"stock":12,"status":true,"category":"electronica"},{"id":3,"title":"Teclado","description":"teclado mecanico bla bla","price":18500,"thumbnail":"miteclado.com/mecanico","code":220,"stock":25,"status":true,"category":"eletronica"},{"id":4,"title":"mouse","description":"Monitor Samsung 27 pulgadas","price":200000,"thumbnail":"samsung.com/monitores","code":99,"stock":12,"status":true,"category":"electronica"}]

@@ -20,7 +20,7 @@ export default class ProductManager {
         let values = Object.values(newproduct)
         let {code} = newproduct
 
-        if (keys.length === 8){
+        if (values.length === 8){
     
             if (!this.products.some((prod) => prod.code === code)) {
                 const product = {

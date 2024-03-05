@@ -1,0 +1,46 @@
+<section id="mainConteiner">
+    <h1 class="title">Productos en tiempo real </h1>
+    <article id="innerConteiner">
+        <div class="listConteiner" id="listConteiner">
+            <h2>Productos</h2>
+            <ul class="list" id="list">
+                {{list}}
+            </ul>
+        </div>
+        <div class="formsConteiner">
+            <div class="addForm">
+                <h3>Agregar un Producto</h3>
+                <form action="/realtimeproducts" method="post" id="productsForm">
+                    <p>Debes completar todos los campos</p>
+                    <input name="title" type="text" placeholder="Titulo" id="title">
+                    <input name="description" type="text" placeholder="Descripcion" id="description">
+                    <input name="price" type="number" placeholder="Precio" id="price">
+                    <input name="thumbnail" type="text" placeholder="Miniatura" id="thumbnail">
+                    <input name="code" type="number" placeholder="Codigo" id="code">
+                    <input name="stock" type="number" placeholder="Stock" id="stock">
+                    <input name="status" type="text" placeholder="Estatus" id="status">
+                    <input name="category" type="text" placeholder="Categoria" id="category">
+
+                    <button type="submit" id="addButton">Agregar Producto</button>
+                </form>
+
+            </div>
+            <div class="deleteForm" id="deleteForm">
+                <h3>Eliminar un Producto</h3>
+                <form id="delete" action="" method="post">
+                    <input id="productId" type="number" placeholder="Ingresa el ID del Producto a eliminar">
+                    <button type="submit">Eliminar Producto</button>
+                </form>
+            </div>
+           
+            
+        </div>
+
+    </article>
+    
+    
+    
+</section>
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/realTimeProducts.js"></script>

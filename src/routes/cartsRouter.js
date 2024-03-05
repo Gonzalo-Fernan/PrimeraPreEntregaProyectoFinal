@@ -1,14 +1,14 @@
 import { Router } from "express";
 import fs from "fs";
-import ProductManager from "../index.js";
+import ProductManager from "../managers/products.manager.js";
 import { randomUUID } from "crypto";
 
 
 const cartsRouter = Router()
 export default cartsRouter
 
-const PATH = "./src/products.json"
-const cartPath = "./src/carts.json"
+const PATH = "./src/data/products.json"
+const cartPath = "./src/data/carts.json"
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts()
 
