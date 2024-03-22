@@ -6,15 +6,37 @@ import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import viewsRouter from "./routes/viewsRouter.js"
 import ProductManager from "./managers/products.manager.js";
+import mongoose from 'mongoose';
+//import messageRouter from "./routes/messageRouter.js";
+
 
 const app = express()
 const port = 8080
 const PATH = "./src/data/products.json"
 
+
+const connectMongoDB = async()=>{
+   
+    //const mongoConnect = mongoose.connect("mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder")
+    //mongodb://localhost:27017
+    //'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
+    const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
+    try {
+        await mongoose.connect(DB_URL)
+        console.log("conectado a DB");
+    } catch (error) {
+        console.log("error base de datos");
+        process.exit()
+    }
+}
+
+connectMongoDB()
+
+//Product Manager
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts()
 
-//middlewares
+//Middlewares
 app.use(express.static(__direname +"/public"))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
@@ -22,13 +44,17 @@ app.set("views", `${__direname}/src/views`)
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 
+//Routes
 app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
+//app.use("/api/messages/", messageRouter)
 app.use(viewsRouter)
 
+//Server
 const server = app.listen(port, () => console.log(`Servidor Levantado en puerto: ${port}`))
 const io = new Server(server)
 
+//Socket Server
 io.on("connection", (socket) => {
 
     // emitimos la lista de productos hacia el cliente (realTimeProducts.js)
@@ -44,5 +70,10 @@ io.on("connection", (socket) => {
         //recibimos el id del producto a eliminar y los parseamos para eliminar el producto
         products.deleteProduct(parseInt(productId)) 
     })
+    socket.on("newMessage", (newMessage) => {
+        
+        console.log("Mensaje agregado", newMessage)
+        io.emit("newMessage", newMessage)
 
+    })
 })

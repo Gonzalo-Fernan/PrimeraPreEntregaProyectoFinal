@@ -1,46 +1,71 @@
-import { Router } from "express";
-import fs from "fs";
+/* import fs from "fs";
 import ProductManager from "../managers/products.manager.js";
-import { randomUUID } from "crypto";
+import { randomUUID } from "crypto"; */
+import { Router } from "express";
+import cartManager from "../dao/services/cartManagerDB.js"
 
 
 const cartsRouter = Router()
 export default cartsRouter
 
-const PATH = "./src/data/products.json"
+/* const PATH = "./src/data/products.json"
 const cartPath = "./src/data/carts.json"
 const products = new ProductManager(PATH)
-const getAllProducts = await products.getProducts()
+const getAllProducts = await products.getProducts() */
+const cartDB = new cartManager()
 
-
+//Aceder a todos los carritos
 cartsRouter.get("/", async (req, res) =>{
 
-    let allCarts =  JSON.parse(await fs.promises.readFile(cartPath, "utf-8"))
-   
+    let allCarts = await cartDB.allCarts()
     res.send(allCarts)
 
+/*     let allCarts =  JSON.parse(await fs.promises.readFile(cartPath, "utf-8"))
+   
+    res.send(allCarts)
+ */
     
-})
+}) 
 
-
+//Acceder al carrito seleccionado
 cartsRouter.get("/:cid/", async (req, res) =>{
 
-    let cartID = req.params.cid
+    try {
+        let cid = req.params.cid
+
+       let selectedCart = await cartDB.getCartById(cid)
+        res.send(selectedCart)
+
+    } catch (error) {
+        console.log("error");
+    }
+   
+
+    /* let cartID = req.params.cid
 
     let carts = JSON.parse(await fs.promises.readFile(cartPath, "utf-8"))
 
     let selectedCart = carts.find(cart => cart.id === cartID)
 
     res.send(selectedCart.products)
-
+ */
     
 })
 
 
 //Agregar un carrito nuevo
-
 cartsRouter.post("/", async (req, res) =>{
-    try{
+    try {
+        const newCart = await cartDB.createCart()
+        res.send(newCart)
+    } catch (error) {
+        console.error("Error al agregar el carrito:", error)
+    }
+
+    /* let newCart = await cartDB.createCart()
+    res.send(newCart) */
+
+   /*  try{
         let carts = JSON.parse(await fs.promises.readFile(cartPath, "utf-8"))
 
         let cart = {
@@ -61,13 +86,21 @@ cartsRouter.post("/", async (req, res) =>{
         console.error('Error creating cart:', error);
        
         res.status(500).json({ error: 'Internal server error' });
-    }
+    } */
 })
 
-
+//Agregar un producto al carrito seleccionado
   cartsRouter.post("/:cid/product/:pid", async (req, res) =>{
 
-    try{
+    let cid = req.params.cid
+    let pid = req.params.pid
+    
+   
+    let newProductInCart = await cartDB.addProduct(cid, pid)
+    res.send(newProductInCart)
+
+
+   /*  try{
        let carts = JSON.parse(await fs.promises.readFile(cartPath, "utf-8"))
 
        let cartId = req.params.cid //id del carrito que viene por params
@@ -108,8 +141,17 @@ catch (error){
     console.error('Error:', error);
    
     res.status(500).json({ error: 'Internal server error' });
-}
+} */
 
     
 })
- 
+//Eliminar un producto del carrito seleccionado 
+cartsRouter.delete("/:cid/delete/:pid", async (req, res) =>{
+
+    let cid = req.params.cid
+    let pid = req.params.pid
+
+    let deletedProduct = await cartDB.deleteProduct(cid, pid)
+    res.send("producto eliminado")
+
+})

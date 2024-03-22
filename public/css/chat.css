@@ -1,0 +1,41 @@
+
+.innerConteiner{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+.messageConteiner{
+    background-color: rgba(0, 0, 255, 0.336);
+    color: white;
+    width: 50%;
+    height: 300px;
+    border-radius: 30px;
+   
+}
+.innerConteiner form{
+    background-color: black;
+    height: 50px;
+    width: 50%;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#message{
+    border-radius: 15px;
+    padding: 10px;
+    border: none;
+    width: 50%;
+
+}
+#send{
+    background-color: green;
+    padding: 10px;
+    border-radius: 15px;
+    width: 80px;
+    color: white;
+    border: none;
+}

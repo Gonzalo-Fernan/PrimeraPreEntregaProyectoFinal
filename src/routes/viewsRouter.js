@@ -11,7 +11,7 @@ const getAllProducts = await products.getProducts()
 
 
 
-router.get("/",(req,res)=>{
+router.get("/home",(req,res)=>{
 
     res.render("home", {getAllProducts, style: "home.css"})
     
