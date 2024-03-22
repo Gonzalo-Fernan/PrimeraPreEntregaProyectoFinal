@@ -22,6 +22,9 @@ router.get("/realtimeproducts",(req,res)=>{
     res.render("realTimeProducts",{style: "realTimeProducts.css"})
 
 })
+router.get("/chat",(req, res)=>{
+    res.render("chat", {style: "chat.css"})
+})
 
 
 

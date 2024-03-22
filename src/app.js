@@ -7,7 +7,7 @@ import { Server } from "socket.io";
 import viewsRouter from "./routes/viewsRouter.js"
 import ProductManager from "./managers/products.manager.js";
 import mongoose from 'mongoose';
-//import messageRouter from "./routes/messageRouter.js";
+import MessagesManager from "./dao/services/messagesManagerDB.js";
 
 
 const app = express()
@@ -35,6 +35,9 @@ connectMongoDB()
 //Product Manager
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts()
+//Message Manager
+const messages = new MessagesManager()
+const getMessages = await messages.getMessages()
 
 //Middlewares
 app.use(express.static(__direname +"/public"))
@@ -47,7 +50,6 @@ app.set("view engine", "handlebars")
 //Routes
 app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
-//app.use("/api/messages/", messageRouter)
 app.use(viewsRouter)
 
 //Server
@@ -70,9 +72,11 @@ io.on("connection", (socket) => {
         //recibimos el id del producto a eliminar y los parseamos para eliminar el producto
         products.deleteProduct(parseInt(productId)) 
     })
-    socket.on("newMessage", (newMessage) => {
-        
-        console.log("Mensaje agregado", newMessage)
+
+    socket.on("newMessage",async (newMessage) => {
+
+        await messages.addNewMessage(newMessage)
+       
         io.emit("newMessage", newMessage)
 
     })
