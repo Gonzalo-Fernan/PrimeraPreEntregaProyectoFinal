@@ -1,6 +1,8 @@
 import { Router } from "express";
 import ProductManager from "../managers/products.manager.js";
 import ProductManagerDB from "../dao/services/productManagerDB.js";
+import productModel from "../dao/models/products.js";
+
 
 const productsRouter = Router()
 export default productsRouter
@@ -11,23 +13,20 @@ const products = new ProductManager(PATH)
 const productsDB = new ProductManagerDB()
 const getAllProducts = await products.getProducts()
 
-productsRouter.get("/", async (req, res) =>{
-    
-    let limit = parseInt(req.query.limit)
+productsRouter.get("/", async (req, res) =>{    
+        let limit = parseInt(req.query.limit)
+        let page = req.query.page? parseInt(req.query.page) : 1 
+        //let sort = req.query.sort 
 
-    if (limit) {
+        if (limit) {
+            const productsPAGINATE = await productModel.paginate({},{page, limit: limit})
+            res.send(productsPAGINATE)
+            return productsPAGINATE
+        }else{
+            return res.send(await productModel.paginate())
+        }
         
-        let data = await productsDB.getAll(limit)
-        res.send(data)
-        
-
-    }else{
-        
-        return res.send(await productsDB.getAll())
-
-    }
-
-
+    //FILE SYSTEM 
    /*  let limit = parseInt(req.query.limit)
 
     if (limit) {

@@ -2,12 +2,13 @@ import { Router } from "express";
 import ProductManager from "../managers/products.manager.js";
 
 
+
 const router = Router()
 
-
+/* 
 const PATH = "./src/data/products.json"
 const products = new ProductManager(PATH)
-const getAllProducts = await products.getProducts()
+const getAllProducts = await products.getProducts() */
 
 
 
@@ -25,6 +26,10 @@ router.get("/realtimeproducts",(req,res)=>{
 router.get("/chat",(req, res)=>{
     res.render("chat", {style: "chat.css"})
 })
+
+ router.get("/products",(req, res)=>{
+    res.render("products",{style:"prducts.css"})
+}) 
 
 
 

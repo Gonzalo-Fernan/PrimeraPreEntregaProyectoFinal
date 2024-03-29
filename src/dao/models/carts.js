@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+
+
+
 const { Schema } = mongoose
 
 const collection = "Carts"
@@ -7,15 +10,24 @@ const schema = new Schema({
 
     products: [{
         product: {
-            type: mongoose.Schema.Types.ObjectId, ref: "products"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Productos",
+            require : true,
         },
         quantity: {
             type: Number,
-            require: true
-        }
-    }]
+            require: true,
+        },
+    },
+],
 
+});
+
+//midleware que aplica populate al metodo find
+schema.pre("find", function (){
+    this.populate("products.product")
 })
+
 
 const cartsModel = mongoose.model(collection, schema)
 

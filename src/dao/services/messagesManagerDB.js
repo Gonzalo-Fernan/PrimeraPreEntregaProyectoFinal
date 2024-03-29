@@ -20,7 +20,7 @@ export default class MessagesManager {
             const messageToAdd = new messagesModel
             messageToAdd.user = newMessage.user
             messageToAdd.message= newMessage.message
-            console.log(messageToAdd);
+          
             await messageToAdd.save()
 
         } catch (error) {

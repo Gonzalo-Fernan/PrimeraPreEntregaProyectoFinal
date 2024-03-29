@@ -4,7 +4,7 @@ const server = io()
 
 let user;
 
-window.onload = ()=>{
+window.addEventListener("DOMContentLoaded",() => {
     Swal.fire({
         title: 'Bienvenido',
         text: 'Ingresá tu nombre de usuario!',
@@ -18,10 +18,12 @@ window.onload = ()=>{
         server.emit("auth", user)
       })
     
-}
+})
+
 
 let input = document.getElementById("message")
 const sendButton = document.getElementById("send")
+
 sendButton.addEventListener("click", ()=>{
     let newMessage = {user: user, message: input.value}
     server.emit("newMessage", newMessage)

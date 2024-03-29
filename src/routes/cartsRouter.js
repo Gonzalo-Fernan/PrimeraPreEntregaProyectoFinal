@@ -5,6 +5,7 @@ import { Router } from "express";
 import cartManager from "../dao/services/cartManagerDB.js"
 
 
+
 const cartsRouter = Router()
 export default cartsRouter
 
@@ -26,19 +27,31 @@ cartsRouter.get("/", async (req, res) =>{
  */
     
 }) 
-
 //Acceder al carrito seleccionado
 cartsRouter.get("/:cid/", async (req, res) =>{
-
-    try {
+/*     const querySort = req.query
+    const pipeline = [
+        {
+            $sort: {price: 1}
+        }
+    ] */
+/*     if (querySort) {
+        const sort = await cartsModel.find().aggregate(pipeline)
+        console.log(sort)
+        return sort
+    }else{ */
+        try {
         let cid = req.params.cid
 
        let selectedCart = await cartDB.getCartById(cid)
         res.send(selectedCart)
 
-    } catch (error) {
+        } catch (error) {
         console.log("error");
-    }
+        }
+    //}
+
+    
    
 
     /* let cartID = req.params.cid
@@ -51,8 +64,6 @@ cartsRouter.get("/:cid/", async (req, res) =>{
  */
     
 })
-
-
 //Agregar un carrito nuevo
 cartsRouter.post("/", async (req, res) =>{
     try {
@@ -88,9 +99,8 @@ cartsRouter.post("/", async (req, res) =>{
         res.status(500).json({ error: 'Internal server error' });
     } */
 })
-
 //Agregar un producto al carrito seleccionado
-  cartsRouter.post("/:cid/product/:pid", async (req, res) =>{
+  cartsRouter.post("/:cid/products/:pid", async (req, res) =>{
 
     let cid = req.params.cid
     let pid = req.params.pid
@@ -146,7 +156,7 @@ catch (error){
     
 })
 //Eliminar un producto del carrito seleccionado 
-cartsRouter.delete("/:cid/delete/:pid", async (req, res) =>{
+cartsRouter.delete("/:cid/products/:pid", async (req, res) =>{
 
     let cid = req.params.cid
     let pid = req.params.pid
@@ -154,4 +164,43 @@ cartsRouter.delete("/:cid/delete/:pid", async (req, res) =>{
     let deletedProduct = await cartDB.deleteProduct(cid, pid)
     res.send("producto eliminado")
 
+})
+//Eliminar TODOS los productos de un carrito
+cartsRouter.delete("/:cid", async (req, res) =>{
+    try {
+        let cid = req.params.cid
+        let deleteAll = await cartDB.deleteAllProducts(cid)
+        res.send("todos los productos han sido eliminados")
+    } catch (error) {
+        res.send(error, "no se pudieron eliminar los productos")
+    }
+    
+
+})
+//Actualizar la cantidad de un producto en un carrito
+cartsRouter.put("/:cid/products/:pid", async (req, res)=>{
+    try {
+        let cid = req.params.cid
+        let pid = req.params.pid
+        let quantity = req.body.quantity
+        
+        await cartDB.updateQuantity(cid, pid, quantity)
+        res.send("cantidad actualizada")
+
+    } catch (error) {
+
+        console.log(error, "nose pudo actualizar la cantidad indicada")
+        res.send("nose pudo actualizar la cantidad indicada")
+
+    }
+    
+   
+    
+})
+//
+cartsRouter.put("/:cid", async (req, res)=>{
+    let cid = req.params.cid
+    let newProducts = req.body
+    let cartUpdated = await cartDB.addManyProducts(cid,newProducts)
+    res.send("productos actualizados en el carrito")
 })

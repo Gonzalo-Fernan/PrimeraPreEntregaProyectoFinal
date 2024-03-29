@@ -1,4 +1,4 @@
-import productsModel from "../models/products.js"
+import  productModel  from "../models/products.js"
 
 export default class ProductManagerDB {
 
@@ -8,28 +8,28 @@ export default class ProductManagerDB {
 
     getAll = async (limit) => {
          if (limit) {
-            let result = await productsModel.find().limit(limit)
+            let result = await productModel.find().limit(limit)
             return result
         }else{
-            let products = await productsModel.find()
+            let products = await productModel.find()
             return products
         } 
         
     }
     getById = async (id) => {
-        let result = await productsModel.findById(id)
+        let result = await productModel.findById(id)
         return result
     }
     addProduct = async (product) => {
-        let result = await productsModel.create(product)
+        let result = await productModel.create(product)
         return result
     }
     updateProduct = async (id, productData) => {
-        let result = await productsModel.updateOne({_id:id}, {$set: productData})
+        let result = await productModel.updateOne({_id:id}, {$set: productData})
         return result
     }
     deleteProduct = async (id) => {
-        let result = await productsModel.deleteOne({_id:id})
+        let result = await productModel.deleteOne({_id:id})
         return result
     }
 

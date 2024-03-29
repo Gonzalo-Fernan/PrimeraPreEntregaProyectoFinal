@@ -8,17 +8,14 @@ import viewsRouter from "./routes/viewsRouter.js"
 import ProductManager from "./managers/products.manager.js";
 import mongoose from 'mongoose';
 import MessagesManager from "./dao/services/messagesManagerDB.js";
+import productModel from "./dao/models/products.js";
 
 
 const app = express()
 const port = 8080
 const PATH = "./src/data/products.json"
 
-
-const connectMongoDB = async()=>{
-   
-    //const mongoConnect = mongoose.connect("mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder")
-    //mongodb://localhost:27017
+const environment = async()=>{
     //'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
     const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
     try {
@@ -28,9 +25,9 @@ const connectMongoDB = async()=>{
         console.log("error base de datos");
         process.exit()
     }
+   
 }
-
-connectMongoDB()
+environment()
 
 //Product Manager
 const products = new ProductManager(PATH)
