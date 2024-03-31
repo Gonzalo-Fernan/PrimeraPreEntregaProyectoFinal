@@ -9,7 +9,7 @@ export default class MessagesManager {
     getMessages = async () => {
 
         try {
-            await messagesModel.find().lean()   
+            await messagesModel.find().lean()
         } catch (error) {
             console.log(error, "no se pudieron mostrar los mensajes");
         }

@@ -1,5 +1,24 @@
-{{!-- <section>
-    <article>
-        {{#each docs}}
+<section>
+    <article class="productsConteiner" id="productsConteiner">
+        {{allProductsDB}}
+               
+    
     </article>
-</section> --}}
+
+</section>    
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/products.js"></script>
+
+
+
+{{!--  <div class="products">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.description}}</p>
+                    <p class="card-text">Precio: ${{this.price}}</p>
+                    <p class="card-text">Stock: {{this.stock}}</p>
+                    <p class="card-text">Categoría: {{this.category}}</p>
+                    <a href="http://localhost:8080/api/products/{{this._id}}">Ver detalles</a>
+                    <button>Agregar al carrito</button> 
+                    <button>Eliminar Producto</button>
+                </div> --}}

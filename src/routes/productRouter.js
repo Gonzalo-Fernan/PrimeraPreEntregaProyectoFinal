@@ -13,19 +13,26 @@ const products = new ProductManager(PATH)
 const productsDB = new ProductManagerDB()
 const getAllProducts = await products.getProducts()
 
-productsRouter.get("/", async (req, res) =>{    
-        let limit = parseInt(req.query.limit)
-        let page = req.query.page? parseInt(req.query.page) : 1 
-        //let sort = req.query.sort 
+productsRouter.get("/", async (req, res) =>{  
 
-        if (limit) {
-            const productsPAGINATE = await productModel.paginate({},{page, limit: limit})
-            res.send(productsPAGINATE)
-            return productsPAGINATE
-        }else{
-            return res.send(await productModel.paginate())
-        }
-        
+    let limit = req.query.limit? parseInt(req.query.limit) : 10
+    let page = req.query.page? parseInt(req.query.page) : 1 
+    let sort = req.query.sort
+    let query = {} 
+    let {category, status} = req.query
+    if (category) {query.category = category}
+    if (status){query.status= status}
+   
+    console.log(query);
+    if (sort === "asc" ) { sort = 1}
+    if (sort === "desc") {sort = -1}
+
+
+    const productsPAGINATE = await productModel.paginate(query,{page, limit: limit,  sort: { price: sort } , lean:true})
+    res.send(productsPAGINATE)
+    return productsPAGINATE
+    
+
     //FILE SYSTEM 
    /*  let limit = parseInt(req.query.limit)
 

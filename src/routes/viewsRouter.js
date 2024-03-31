@@ -18,7 +18,7 @@ router.get("/home",(req,res)=>{
     
 })
 
-router.get("/realtimeproducts",(req,res)=>{
+router.get("/realtimeproducts",(req,res)=>{ 
 
     res.render("realTimeProducts",{style: "realTimeProducts.css"})
 
@@ -28,7 +28,7 @@ router.get("/chat",(req, res)=>{
 })
 
  router.get("/products",(req, res)=>{
-    res.render("products",{style:"prducts.css"})
+    res.render("products",{style:"products.css"})
 }) 
 
 

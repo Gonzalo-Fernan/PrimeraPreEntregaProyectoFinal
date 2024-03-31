@@ -8,7 +8,7 @@ import viewsRouter from "./routes/viewsRouter.js"
 import ProductManager from "./managers/products.manager.js";
 import mongoose from 'mongoose';
 import MessagesManager from "./dao/services/messagesManagerDB.js";
-import productModel from "./dao/models/products.js";
+import ProductManagerDB from "./dao/services/productManagerDB.js";
 
 
 const app = express()
@@ -35,6 +35,9 @@ const getAllProducts = await products.getProducts()
 //Message Manager
 const messages = new MessagesManager()
 const getMessages = await messages.getMessages()
+//Products DB
+const productsDB = new ProductManagerDB()
+const allProductsDB = await productsDB.getAll()
 
 //Middlewares
 app.use(express.static(__direname +"/public"))
@@ -65,9 +68,9 @@ io.on("connection", (socket) => {
         
     })
     
-    socket.on("delete",(productId)=>{
+    socket.on("delete",async(productId)=>{
         //recibimos el id del producto a eliminar y los parseamos para eliminar el producto
-        products.deleteProduct(parseInt(productId)) 
+       await products.deleteProduct(parseInt(productId)) 
     })
 
     socket.on("newMessage",async (newMessage) => {
@@ -75,6 +78,13 @@ io.on("connection", (socket) => {
         await messages.addNewMessage(newMessage)
        
         io.emit("newMessage", newMessage)
+
+    })
+    io.emit("products", allProductsDB)
+
+    socket.on("products", async(allProductsDB)=>{
+        
+        io.emit("products", allProductsDB)
 
     })
 })
