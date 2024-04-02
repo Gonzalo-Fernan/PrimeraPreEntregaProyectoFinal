@@ -6,15 +6,9 @@ export default class ProductManagerDB {
         console.log("Trabajando con productManager")
     }
 
-    getAll = async (limit) => {
-         if (limit) {
-            let result = await productModel.find().limit(limit)
-            return result
-        }else{
+    getAll = async () => {
             let products = await productModel.find()
             return products
-        } 
-        
     }
     getById = async (id) => {
         let result = await productModel.findById(id)

@@ -22,13 +22,13 @@ productsRouter.get("/", async (req, res) =>{
     let {category, status} = req.query
     if (category) {query.category = category}
     if (status){query.status= status}
-   
-    console.log(query);
     if (sort === "asc" ) { sort = 1}
     if (sort === "desc") {sort = -1}
+    let optionsWithSort = {page, limit: limit,  sort: { price: sort } , lean:true}
+    let options = {page, limit: limit, lean:true}
 
 
-    const productsPAGINATE = await productModel.paginate(query,{page, limit: limit,  sort: { price: sort } , lean:true})
+    const productsPAGINATE = await productModel.paginate(query, sort? optionsWithSort : options)
     res.send(productsPAGINATE)
     return productsPAGINATE
     

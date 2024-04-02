@@ -3,24 +3,52 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.navbar{
+    color: white;
+    background-color: rgb(24, 6, 41);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 100px;
+    padding: 50px;
+}
+.navbar h1{
+    font-size: 50px;
+    
+
+}
+.navbar aside{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 section{
+    color: white;
     width: 100%;
     height: 100vh;
-    background-color: rgb(56, 17, 92);
-    display: flex;
-    align-items: start;
-    justify-content: center;
+    background-color: rgb(50, 22, 75);
 }
 .productsConteiner{
-    max-width: 1100px;
-    padding-top: 50px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    
+}
+.productsInnerConteiner{
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
+
 .products{
+    width: 400px;
+    position: relative;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding: 20px;
     border-radius: 30px;
@@ -29,7 +57,7 @@ section{
     align-items: start;
     justify-content: center;
     gap: 5px;
-    background-color: rgb(34, 15, 51);
+    background-color: rgb(25, 11, 37);
     color: white;
 
 }
@@ -38,15 +66,6 @@ section{
 }
 .products h2{
     margin-bottom: 10px;
-}
-.eliminar{
-    background-color: rgb(192, 33, 33);
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 10px;
-    padding: 8px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
 }
 .agregar{
     margin-top: 10px;
@@ -59,6 +78,9 @@ section{
     font-weight: bold;
 }
 .detalle{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
     margin-top: 10px;
     background-color: rgb(96, 1, 151);
     color: white;
@@ -67,4 +89,44 @@ section{
     padding: 8px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
    
+}
+.paginacion{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.paginacion a{
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgb(80, 58, 100);
+}
+#filtroCategoria{
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    background-color: rgb(134, 95, 172);
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#filtroCategoria option{
+    background-color: rgb(90, 15, 165);
+}
+.orden{
+    background-color: rgb(96, 1, 151);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    
+}
+.orden a{
+    text-decoration: none;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
 }

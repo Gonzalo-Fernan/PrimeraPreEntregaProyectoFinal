@@ -1,9 +1,66 @@
 <section>
+    <nav class="navbar">
+        <h1>Productos</h1>
+        <aside>
+            <h2>Filtros</h2>
+            <label for="filtroCategoria">Por Categoría</label>
+           <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&category=merceria">Merceria</a></button>
+            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&category=maquinas">Maquinas</a></button>
+        </aside>
+        <aside>
+         <h2>Ordenar</h2>
+            <label for="ordenarPrecio">Por Precio</label>
+            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&sort=asc">Ascendente</a></button>
+            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&sort=desc">Descendente</a></button>
+        </aside>
+    </nav>
+    <article class="productsConteiner" id="productsConteiner">
+             {{#if productsPAGINATE.isValid}}
+        <div class="productsInnerConteiner"> 
+                {{#each productsPAGINATE.docs}}
+            <div class="products">
+                    <h2><strong>Nombre:</strong> {{this.title}}</h2>
+                    <li><strong>Precio:</strong> {{this.price}}</li>
+                    <li><strong>Descripción:</strong> {{this.description}}</li>
+                    <li><strong>Categoria:</strong> {{this.category}}</li>
+                <button class="agregar">Agregar al Carrito</button>
+                {{!-- <button class="eliminar">Eliminar</button> --}}
+                <button class="detalle">Ir a detalle de producto</button>
+
+            </div>
+                {{/each}}
+        </div>    
+        <div class="paginacion">
+            {{#if productsPAGINATE.hasPrevPage}}
+                <a href={{productsPAGINATE.prevLink}}> Anterior</a>
+            {{/if}}
+            &nbsp;
+            <p>{{productsPAGINATE.page}}</p> 
+            &nbsp;
+            {{#if productsPAGINATE.hasNextPage}}
+                <a href={{productsPAGINATE.nextLink}}>Siguiente</a>
+            {{/if}} 
+        </div>
+        {{else}}
+        <h2>No hay productos para mostrar</h2>
+        {{/if}}
+    </article> 
+
+   {{!--  <nav>
+         <h2>FILTRAR</h2>
+        <label for="filtroCategoria">Por Categoría</label>
+        <select name="filtroCategoria" id="filtroCategoria">
+            <option value="todo">Todo</option>
+            <option value="maquinas">Maquinas</option>
+            <option value="merceria">Merceria</option>
+        </select>
+        <a id="filtroLink" href="http://localhost:8080/products"></a><button>Filtrar</button></a>
+    </nav>
     <article class="productsConteiner" id="productsConteiner">
         {{allProductsDB}}
                
     
-    </article>
+    </article> --}}
 
 </section>    
 
@@ -12,13 +69,3 @@
 
 
 
-{{!--  <div class="products">
-                    <h5 class="card-title">{{this.title}}</h5>
-                    <p class="card-text">{{this.description}}</p>
-                    <p class="card-text">Precio: ${{this.price}}</p>
-                    <p class="card-text">Stock: {{this.stock}}</p>
-                    <p class="card-text">Categoría: {{this.category}}</p>
-                    <a href="http://localhost:8080/api/products/{{this._id}}">Ver detalles</a>
-                    <button>Agregar al carrito</button> 
-                    <button>Eliminar Producto</button>
-                </div> --}}
