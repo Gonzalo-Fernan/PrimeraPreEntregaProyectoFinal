@@ -24,8 +24,7 @@
                     <li><strong>Descripción:</strong> {{this.description}}</li>
                     <li><strong>Categoria:</strong> {{this.category}}</li>
                 <button class="agregar">Agregar al Carrito</button>
-                {{!-- <button class="eliminar">Eliminar</button> --}}
-                <button class="detalle">Ir a detalle de producto</button>
+                <button class="detalle"><a href="http://localhost:8080/products/{{this._id}}">Ir a detalle de producto</a></button>
 
             </div>
                 {{/each}}

@@ -3,7 +3,7 @@ import ProductManager from "../managers/products.manager.js";
 import productModel from "../dao/models/products.js";
 import cartModel from "../dao/models/carts.js";
 import CartManager from "../dao/services/cartManagerDB.js";
-
+import ProductManagerDB from "../dao/services/productManagerDB.js";
 const router = Router()
 
 /* 
@@ -11,7 +11,7 @@ const PATH = "./src/data/products.json"
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts() */
 const cartsDB = new CartManager()
-
+const productsDB = new ProductManagerDB()
 
 router.get("/home",(req,res)=>{
 
@@ -54,14 +54,19 @@ router.get("/chat",(req, res)=>{
 }) 
 router.get("/cart/:cid",async(req, res)=>{
     let cid = req.params.cid
-    console.log(cid);
 
     let selectedCart = await cartsDB.getCartById(cid) 
-    console.log(selectedCart.products);
-    console.log(selectedCart);
    
     res.render("cart", {selectedCart, style:"cart.css"})
 })
+
+router.get("/products/:pid", async(req, res)=>{
+
+    let pid = req.params.pid
+    let result = await productsDB.getById(pid)
+    
+    res.render("productdetail",{ result, style:"productDetail.css"})
+}) 
 
 
 

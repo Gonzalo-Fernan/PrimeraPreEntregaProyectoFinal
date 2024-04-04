@@ -11,7 +11,7 @@ export default class ProductManagerDB {
             return products
     }
     getById = async (id) => {
-        let result = await productModel.findById(id)
+        let result = await productModel.findById(id).lean()
         return result
     }
     addProduct = async (product) => {
