@@ -1,5 +1,6 @@
 import { isValidObjectId } from "mongoose"
 import cartsModel from "../models/carts.js"
+import mongoose from "mongoose"
 
 
 export default class CartManager {
@@ -11,10 +12,10 @@ export default class CartManager {
         let allCarts = await cartsModel.find().populate("products.product")
         return allCarts
     }
-
+   //""products.product"
     getCartById = async (id) => {
         try {
-            let cart = await cartsModel.findById(id).populate("products.product")
+            let cart = await cartsModel.findById(id).populate("products.product").lean()
             return cart
         } catch (error) {
             console.log(error, "no se encontro el carrito selecionado");

@@ -1,7 +1,8 @@
 import { Router } from "express";
 import ProductManager from "../managers/products.manager.js";
 import productModel from "../dao/models/products.js";
-
+import cartModel from "../dao/models/carts.js";
+import CartManager from "../dao/services/cartManagerDB.js";
 
 const router = Router()
 
@@ -9,7 +10,7 @@ const router = Router()
 const PATH = "./src/data/products.json"
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts() */
-
+const cartsDB = new CartManager()
 
 
 router.get("/home",(req,res)=>{
@@ -43,17 +44,24 @@ router.get("/chat",(req, res)=>{
      
 
     const productsPAGINATE = await productModel.paginate(query, sort? optionsWithSort : options)
-    console.log(productsPAGINATE.hasPrevPage);
+
     productsPAGINATE.isValid = page >= 1 && page <= productsPAGINATE.totalPages;
-    console.log(productsPAGINATE.totalPages);
-    console.log(productsPAGINATE.isValid);
     productsPAGINATE.nextLink = productsPAGINATE.hasNextPage? `http://localhost:8080/products?page=${productsPAGINATE.nextPage}`: "";
     productsPAGINATE.prevLink = productsPAGINATE.hasPrevPage? `http://localhost:8080/products?page=${productsPAGINATE.prevPage}`: "";
     productsPAGINATE.currentPage = page
     
     res.render("products",{ productsPAGINATE ,style:"products.css"})
 }) 
+router.get("/cart/:cid",async(req, res)=>{
+    let cid = req.params.cid
+    console.log(cid);
 
+    let selectedCart = await cartsDB.getCartById(cid) 
+    console.log(selectedCart.products);
+    console.log(selectedCart);
+   
+    res.render("cart", {selectedCart, style:"cart.css"})
+})
 
 
 

@@ -80,11 +80,13 @@ io.on("connection", (socket) => {
         io.emit("newMessage", newMessage)
 
     })
-    io.emit("products", allProductsDB)
+  /*   io.emit("products", allProductsDB)
 
     socket.on("products", async(allProductsDB)=>{
         
         io.emit("products", allProductsDB)
 
-    })
+    }) */
+   
+
 })

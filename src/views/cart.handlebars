@@ -1,0 +1,60 @@
+<section>
+   
+        {{#if selectedCart.products.length}}
+            <nav class="navbar">
+                <h1>Tu carrito</h1>
+                <h2>Indentificador: {{selectedCart._id}}</h2>
+            </nav>
+             <article class="productsSection">
+                <h3>Produtos agregados al carrito</h3>
+                <div class="productsConteiner">
+            {{#each selectedCart.products}}
+                <div class="product">
+                    <h2>Nombre: {{this.product.title}}</h2>
+                    <p>Descripcion: {{this.product.description}}</p>
+                    <p>Precio: {{this.product.price}}</p>
+                    <p>Codigo: {{this.product.code}}</p>
+                    <p>Status: {{this.product.status}}</p>
+                    <p>Stock: {{this.product.stock}}</p>
+                    <p>Imagen: {{this.product.thumbnails}}</p>
+                    <p>Categoria: {{this.product.category}}</p>
+                    <button class="eliminar">Eliminar del carrito</button>
+                </div>
+            {{/each}} 
+            </div>
+            </article>
+        {{/if}}
+      
+   
+</section>
+
+<script src="/socket.io/socket.io.js" ></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           {{!--  <h2>{{this.title}}</h2>
+            <p>{{this.description}}</p>
+            <p>{{this.price}}</p>
+            <p>{{this.thumbnail}}</p>
+            <p>{{this.code}}</p>
+            <p>{{this.status}}</p>
+            <p>{{this.stock}}</p>
+            <p>{{this.category}}</p>
+ --}}
