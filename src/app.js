@@ -9,7 +9,9 @@ import ProductManager from "./managers/products.manager.js";
 import mongoose from 'mongoose';
 import MessagesManager from "./dao/services/messagesManagerDB.js";
 import ProductManagerDB from "./dao/services/productManagerDB.js";
-
+import cookieParser from "cookie-parser";
+import sessionRouter from "./routes/sessionRouter.js";
+import session from "express-session";
 
 const app = express()
 const port = 8080
@@ -46,11 +48,18 @@ app.use(express.json())
 app.set("views", `${__direname}/src/views`)
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
+app.use(cookieParser())
+app.use(session({
+    secret: "Secreto",
+    resave: true,
+    saveUninitialized: true
+}))
 
 //Routes
 app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
 app.use(viewsRouter)
+app.use("/api/sessions/", sessionRouter)
 
 //Server
 const server = app.listen(port, () => console.log(`Servidor Levantado en puerto: ${port}`))
@@ -80,13 +89,7 @@ io.on("connection", (socket) => {
         io.emit("newMessage", newMessage)
 
     })
-  /*   io.emit("products", allProductsDB)
-
-    socket.on("products", async(allProductsDB)=>{
-        
-        io.emit("products", allProductsDB)
-
-    }) */
+ 
    
 
 })

@@ -4,12 +4,16 @@ import productModel from "../dao/models/products.js";
 import cartModel from "../dao/models/carts.js";
 import CartManager from "../dao/services/cartManagerDB.js";
 import ProductManagerDB from "../dao/services/productManagerDB.js";
+import { auth }  from "../midlewares/auth.js";
+
 const router = Router()
 
 /* 
 const PATH = "./src/data/products.json"
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts() */
+
+//Datos de la Base de datos
 const cartsDB = new CartManager()
 const productsDB = new ProductManagerDB()
 
@@ -67,6 +71,20 @@ router.get("/products/:pid", async(req, res)=>{
     
     res.render("productdetail",{ result, style:"productDetail.css"})
 }) 
+
+router.get("/register", (req, res) => {
+    res.render("register");
+  });
+  
+  router.get("/login", (req, res) => {
+    res.render("login");
+  });
+  
+  router.get("/", auth, (req, res) => {
+    res.render("profile", {
+      user: req.session.user,
+    });
+  });
 
 
 

@@ -26,11 +26,11 @@ productsRouter.get("/", async (req, res) =>{
     if (sort === "desc") {sort = -1}
     let optionsWithSort = {page, limit: limit,  sort: { price: sort } , lean:true}
     let options = {page, limit: limit, lean:true}
-
-
+     
+    // const productsPAGINATE = await productsDB.getAll(req.query)
     const productsPAGINATE = await productModel.paginate(query, sort? optionsWithSort : options)
-    res.send(productsPAGINATE)
-    return productsPAGINATE
+    res.status(200).send({status: 'success', payload: productsPAGINATE})
+ 
     
 
     //FILE SYSTEM 
