@@ -1,6 +1,12 @@
 <section>
     <nav class="navbar">
         <h1>Productos</h1>
+        <div class="welcomeConteiner">
+            <h2>Bienvenido/a</h2>
+            <p>{{user.first_name}} {{user.last_name}}</p>
+            <p>Rol: {{user.role}}</p>
+            <a href="http://localhost:8080/api/sessions/logout"><button class="logout" id="logout">Cerrar Sesion</button></a>
+        </div>
         <aside>
             <h2>Filtros</h2>
             <label for="filtroCategoria">Por Categoría</label>

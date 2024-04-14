@@ -10,8 +10,8 @@ export const createHash=(password)=>bcrypt.hashSync(password, bcrypt.genSaltSync
 export const isValidPassword = (user, password) => {
   console.log(
     `Datos a validar: user-password: ${user.password}, password: ${password}`
-  );
-  return bcrypt.compareSync(password, user.password);
+  )
+  return bcrypt.compareSync(password, user.password)
 };
 
 export default __direname;

@@ -8,7 +8,6 @@ registerform.addEventListener("submit", (e) => {
   const obj = {};
   formData.forEach((value, key) => (obj[key] = value))
 
-  console.log(obj, formData);
   fetch("/api/sessions/register", {
     method: "POST",
     body: JSON.stringify(obj),
@@ -18,6 +17,8 @@ registerform.addEventListener("submit", (e) => {
   })
     .then((response) => response.json())
     .then((json) => {
+      window.location.replace("/login");
       console.log(json)
     })
+
 });

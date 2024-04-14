@@ -10,17 +10,25 @@ export default sessionRouter
 sessionRouter.post("/register", async (req, res) => {
     const { first_name, last_name, email, age, password } = req.body;
 
+    if (!first_name || !last_name || !email || !password || !age) {
+        res.status(400).send({ status: "error", message: "Todos los campos deben ser completados" })
+    }
+
     const exist = await userModel.findOne({ email: email });
 
     if (exist) {
         return res.status(400).send({ status: "error", error: "el correo ya existe" })
     }
+
+    let role = email === "adminCoder@coder.com"? "admin" : "user"
+    
     const user = {
         first_name,
         last_name,
         email,
         age,
         password: createHash(password),
+        role
         }
 
     const result = await userModel.create(user);
@@ -31,8 +39,8 @@ sessionRouter.post("/register", async (req, res) => {
 
 sessionRouter.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email }); //solo correo
-    
+    const user = await userModel.findOne({ email })
+
     if (!user) {
         return res.status(400).send({ status: "error", error: "error en las credenciales" })
     }
@@ -57,36 +65,12 @@ delete user.password
         })
 })
 
-sessionRouter.get("/", auth, (req, res) => {
-    res.render("profile", {
-        user: req.session.user,
-    });
-})  
-  
-/* sessionRouter.post("/register", async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
-    
-    const exist = await userModel.findOne({ email: email });
-    
-    if (exist) {
-        return res.status(400).send({ status: "error", error: "el correo ya existe" })
-    }
-    const user = {
-        first_name,
-        last_name,
-        email,
-        age,
-        password: createHash(password),
-    };
-    const result = await userModel.create(user);
-    console.log(result);
-    res.status(201).send({ staus: "success", payload: result })
-}) */
-
 sessionRouter.get("/logout", async (req,res) => {
     req.session.destroy(err=>{
         if(!err){
-            res.send("Se cerro la sesion con exito")
+            res
+            .status(200)
+            .redirect("/login")
         }else{
             res.send({error: err})
         }
@@ -94,6 +78,3 @@ sessionRouter.get("/logout", async (req,res) => {
 })
 
 
-sessionRouter.get("/login", async (req, res) => {
-
-})

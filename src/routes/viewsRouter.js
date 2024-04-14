@@ -32,7 +32,7 @@ router.get("/chat",(req, res)=>{
     res.render("chat", {style: "chat.css"})
 })
 
- router.get("/products", async(req, res)=>{
+router.get("/products", auth, async(req, res)=>{
     let limit = req.query.limit? parseInt(req.query.limit) : 10
     let page = req.query.page? parseInt(req.query.page) : 1 
     let sort = req.query.sort
@@ -44,7 +44,8 @@ router.get("/chat",(req, res)=>{
     if (sort === "desc") {sort = -1}
     let optionsWithSort = {page, limit: 4,  sort: { price: sort } , lean:true}
     let options = {page, limit: 4, lean:true}
-   
+    let usuario = req.session.user
+    console.log(usuario)
      
 
     const productsPAGINATE = await productModel.paginate(query, sort? optionsWithSort : options)
@@ -54,7 +55,7 @@ router.get("/chat",(req, res)=>{
     productsPAGINATE.prevLink = productsPAGINATE.hasPrevPage? `http://localhost:8080/products?page=${productsPAGINATE.prevPage}`: "";
     productsPAGINATE.currentPage = page
     
-    res.render("products",{ productsPAGINATE ,style:"products.css"})
+    res.render("products",{ productsPAGINATE, user: req.session.user, style:"products.css"})
 }) 
 router.get("/cart/:cid",async(req, res)=>{
     let cid = req.params.cid
@@ -73,18 +74,13 @@ router.get("/products/:pid", async(req, res)=>{
 }) 
 
 router.get("/register", (req, res) => {
-    res.render("register")
-  });
+    res.render("register", {style:"register.css"})
+  })
   
-  router.get("/login", (req, res) => {
-    res.render("login")
-  });
+router.get("/login", (req, res) => {
+    res.render("login", {style:"login.css"})
+  })
   
-  router.get("/", auth, (req, res) => {
-    res.render("profile", {
-      user: req.session.user,
-    });
-  });
 
 
 

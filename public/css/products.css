@@ -43,6 +43,28 @@ section{
     gap: 15px;
     flex-wrap: wrap;
 }
+.welcomeConteiner{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: start;
+    justify-content: center;
+}
+.logout{
+    margin-top: 10px;
+    background-color: rgb(161, 14, 14);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+.logout a{
+    text-decoration: none;
+    color: white;
+}
 
 .products{
     width: 400px;
