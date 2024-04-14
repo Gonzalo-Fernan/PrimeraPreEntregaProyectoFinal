@@ -4,7 +4,7 @@ import productModel from "../dao/models/products.js";
 import cartModel from "../dao/models/carts.js";
 import CartManager from "../dao/services/cartManagerDB.js";
 import ProductManagerDB from "../dao/services/productManagerDB.js";
-import { auth }  from "../midlewares/auth.js";
+import { auth }  from "../middlewares/auth.js";
 
 const router = Router()
 
@@ -73,11 +73,11 @@ router.get("/products/:pid", async(req, res)=>{
 }) 
 
 router.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register")
   });
   
   router.get("/login", (req, res) => {
-    res.render("login");
+    res.render("login")
   });
   
   router.get("/", auth, (req, res) => {
