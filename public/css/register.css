@@ -16,7 +16,7 @@ section{
     justify-content: center;
     align-items: center;
 }
-.mainConteiner h1{
+.mainConteiner p{
     color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -42,6 +42,18 @@ section{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 10px;
     background-color: rgb(46, 155, 36);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+.login{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 10px;
+    background-color: rgb(7, 71, 168);
     color: white;
     border: none;
     border-radius: 10px;
