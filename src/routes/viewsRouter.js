@@ -80,6 +80,10 @@ router.get("/register", (req, res) => {
 router.get("/login", (req, res) => {
     res.render("login", {style:"login.css"})
   })
+
+router.get('/restore', async (req, res) => {
+    res.render('restore',{style: "restore.css"})
+})
   
 
 

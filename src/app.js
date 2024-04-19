@@ -12,10 +12,16 @@ import ProductManagerDB from "./dao/services/productManagerDB.js";
 import cookieParser from "cookie-parser";
 import sessionRouter from "./routes/sessionRouter.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
+import passport from "passport";
+import initilizePassport from "./config/passport.config.js";
+
 
 const app = express()
 const port = 8080
 const PATH = "./src/data/products.json"
+
+const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
 
 const environment = async()=>{
     //'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
@@ -50,10 +56,23 @@ app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.use(cookieParser())
 app.use(session({
-    secret: "Secreto",
-    resave: true,
-    saveUninitialized: true
-}))
+      store: new MongoStore({
+        mongoUrl: DB_URL,
+        ttl: 3600,
+      }),
+      secret: "Secret",
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
+
+//usando passport
+initilizePassport()
+app.use(passport.initialize())
+app.use(passport.session()) 
+
+
+
 
 //Routes
 app.use("/api/products/", productsRouter)
