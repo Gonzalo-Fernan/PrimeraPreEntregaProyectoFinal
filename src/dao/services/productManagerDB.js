@@ -7,45 +7,6 @@ export default class ProductManagerDB {
     }
 
     getAll = async () => {
-        /* const {
-            limit = 10, // default limit = 4
-            page = 1, // default page = 1
-            sort = null,
-            query = null,
-            category = null,
-            status = null, //available
-          } = params;
-
-          console.log(limit);
-
-          const options = {
-            query: query,
-            page: Number(page),
-            limit: Number(limit),
-            sort: sort ? { price: sort === "asc" ? 1 : -1 } : {},
-            customLabels: {
-              docs: "products",
-              totalDocs: "totalProducts",
-            },
-          };
-      
-          let searchQuery = {};
-      
-          // $options: 'i' en MongoDB se utiliza para hacer que la búsqueda sea insensible a mayúsculas y minúsculas.
-          if (query) {
-            searchQuery.title = { $regex: query, $options: "i" };
-          }
-      
-          if (category) {
-            searchQuery.category = { $regex: category, $options: "i" };
-          }
-      
-          if (status !== null) {
-            searchQuery.status = status === "true";
-          }
-      
-          const result = await productModel.paginate(searchQuery, options);
-          return result; */
         let products = await productModel.find()
         return products   
     }
@@ -65,5 +26,32 @@ export default class ProductManagerDB {
         let result = await productModel.deleteOne({_id:id})
         return result
     }
+        //buscar con categorias incluidas
+    getAllProductsWithCategories = async () => {
+        //lógica a implementar
+        try {
+            const products = productModel.find().populate("category")
+            return products
+            
+        } catch (error) {
+            console.log("Error al obtener los productos");
+        }
+    };
+    
+    //paginate
+    getPaginatedProducts = async (page = 1, limit = 10) => {
+        //lógica a implementar
+        try {
+            const options = {
+                page: parseInt(page),
+                limmit: parseInt(limit)
+            }
+            const products = await productModel.paginate({}, options);
+            return products;
+            
+        } catch (error) {
+            console.log("Error ");
+        }
+    };
 
 }

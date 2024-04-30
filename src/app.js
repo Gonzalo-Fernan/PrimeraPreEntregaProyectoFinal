@@ -15,27 +15,14 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initilizePassport from "./config/passport.config.js";
-
+import dbConnection from "./config/db.config.js";
 
 const app = express()
 const port = 8080
 const PATH = "./src/data/products.json"
 
 const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
-
-const environment = async()=>{
-    //'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
-    const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
-    try {
-        await mongoose.connect(DB_URL)
-        console.log("conectado a DB");
-    } catch (error) {
-        console.log("error base de datos");
-        process.exit()
-    }
-   
-}
-environment()
+dbConnection();
 
 //Product Manager
 const products = new ProductManager(PATH)
@@ -72,8 +59,6 @@ app.use(passport.initialize())
 app.use(passport.session()) 
 
 
-
-
 //Routes
 app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
@@ -83,6 +68,7 @@ app.use("/api/sessions/", sessionRouter)
 //Server
 const server = app.listen(port, () => console.log(`Servidor Levantado en puerto: ${port}`))
 const io = new Server(server)
+
 
 //Socket Server
 io.on("connection", (socket) => {

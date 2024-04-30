@@ -1,4 +1,8 @@
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
+
+
+const { Schema } = mongoose;
 
 const collection = 'Users';
 
@@ -15,8 +19,13 @@ const schema = new mongoose.Schema({
         type: String,
         default: "user",
         enum: ["user", "admin"]
+    },
+    cart : {
+      type: Schema.Types.ObjectId,
+      ref: "Carts",
     }
 })
+schema.plugin(mongoosePaginate)
 
 const userModel = mongoose.model(collection,schema);
 

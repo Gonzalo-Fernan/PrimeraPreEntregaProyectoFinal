@@ -2,6 +2,9 @@ import passport from "passport";
 import local from "passport-local";
 import userModel from "../dao/models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
+import GitHubStrategy from "passport-github2";
+import CartManager from "../dao/services/cartManagerDB.js";
+
 
 const LocalStrategy = local.Strategy;
 
@@ -18,7 +21,8 @@ const initializePassport = () => {
             console.log("el usuario ya existe");
             return done(null, false)
           }
-          
+          const cartManagerDB = new CartManager()
+          const cart = await cartManagerDB.createCart()
           let role = email === "adminCoder@coder.com"? "admin" : "user"
 
           const newUser = {
@@ -27,7 +31,8 @@ const initializePassport = () => {
             email,
             age,
             password: createHash(password),
-            role
+            role,
+            cart
           };
 
           // Guardar el usuario
@@ -40,7 +45,6 @@ const initializePassport = () => {
     )
   );
 
-  //estrategia local para despues
   passport.use(
     "login",
     new LocalStrategy(
@@ -53,6 +57,45 @@ const initializePassport = () => {
           if (!valid) return done(null, false);
 
           return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+ //estrategia para github
+  passport.use(
+    "github",
+    new GitHubStrategy(
+      {
+        clientID: "Iv1.d9a73477f8887a29", //id de la app en github
+        clientSecret: "0cbfa36279ae9e58192f4db3ea356ce85d42e558", //clave secreta de github
+        callbackURL: "http://localhost:8080/api/sessions/githubcallback", //url callback de github
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          console.log(profile); //obtenemos el objeto del perfil
+          //buscamos en la db el email
+          const user = await userModel.findOne({
+            email: profile._json.email,
+          });
+          //si no existe lo creamos
+          if (!user) {
+            //contruimos el objeto según el modelo (los datos no pertenecientes al modelo lo seteamos por default)
+            const newUser = {
+              first_name: profile._json.name,
+              last_name: "",
+              age: 20,
+              email: profile._json.email,
+              password: "",
+              role:"user"
+            };
+            //guardamos el usuario en la database
+            let createdUser = await userModel.create(newUser);
+            return done(null, createdUser);
+          } else {
+            done(null, user);
+          }
         } catch (error) {
           return done(error);
         }
