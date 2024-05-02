@@ -24,7 +24,7 @@ const PATH = "./src/data/products.json"
 const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
 dbConnection();
 
-//Product Manager
+//Product Manager(fileSistem)
 const products = new ProductManager(PATH)
 const getAllProducts = await products.getProducts()
 //Message Manager

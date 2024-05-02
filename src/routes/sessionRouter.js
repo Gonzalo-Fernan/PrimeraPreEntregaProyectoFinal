@@ -150,7 +150,7 @@ sessionRouter.get(
  
 sessionRouter.get("/current", async(req,res)=>{
   
-    req.session.user? res.send({stattus: "success",payload:req.session.user}): res.send({message: "ususario no encontrado"})
+    req.session.user? res.send({status: "success",payload:req.session.user}): res.send({message: "ususario no encontrado"})
    
   })
 
