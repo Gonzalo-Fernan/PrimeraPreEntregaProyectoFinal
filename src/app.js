@@ -20,8 +20,8 @@ import dbConnection from "./config/db.config.js";
 const app = express()
 const port = 8080
 const PATH = "./src/data/products.json"
-
 const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
+//conexion con la base de datos
 dbConnection();
 
 //Product Manager(fileSistem)
