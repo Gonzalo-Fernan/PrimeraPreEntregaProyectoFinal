@@ -5,10 +5,38 @@ export default class ProductManagerDB {
     constructor(){
         console.log("Trabajando con productManager")
     }
+    getAll = async (params) =>{
+        try {
+            const {
+                limit = 10,
+                page = 1,
+                sort,
+                category,
+                status
+            } = params
+    
+            //paginación.
+            const options = {limit, page, lean : true}
+    
+            //ordenamiento.
+            if (sort && (sort === 'asc' || sort === 'desc')) {
+                options.sort = { price: sort === 'asc' ? 1 : -1 }
+            }
+    
+            //filtro query.
+            const query = {}
+            category && (query.category = category)
+            status && (query.status = status)
+    
+            
+            //Consulta a la base de datos. Retorna un objeto con los productos y la información de paginación.
+            const result = await productModel.paginate(query, options)
+            return result
 
-    getAll = async () => {
-        let products = await productModel.find()
-        return products   
+        } catch (error) {
+            return console.log("Error al cargar los datos")
+        }
+        
     }
     getById = async (id) => {
         let result = await productModel.findById(id).lean()
@@ -26,7 +54,7 @@ export default class ProductManagerDB {
         let result = await productModel.deleteOne({_id:id})
         return result
     }
-        //buscar con categorias incluidas
+//buscar con categorias incluidas
     getAllProductsWithCategories = async () => {
         //lógica a implementar
         try {
@@ -36,22 +64,5 @@ export default class ProductManagerDB {
         } catch (error) {
             console.log("Error al obtener los productos");
         }
-    };
-    
-    //paginate
-    getPaginatedProducts = async (page = 1, limit = 10) => {
-        //lógica a implementar
-        try {
-            const options = {
-                page: parseInt(page),
-                limmit: parseInt(limit)
-            }
-            const products = await productModel.paginate({}, options);
-            return products;
-            
-        } catch (error) {
-            console.log("Error ");
-        }
-    };
-
+    }
 }

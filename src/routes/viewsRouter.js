@@ -1,89 +1,17 @@
 import { Router } from "express";
-import ProductManager from "../managers/products.manager.js";
-import productModel from "../dao/models/products.js";
-import cartModel from "../dao/models/carts.js";
-import CartManager from "../dao/services/cartManagerDB.js";
-import ProductManagerDB from "../dao/services/productManagerDB.js";
 import { auth }  from "../middlewares/auth.js";
-
+import viewsController from "../dao/controllers/views.controller.js";
 const router = Router()
 
-/* 
-const PATH = "./src/data/products.json"
-const products = new ProductManager(PATH)
-const getAllProducts = await products.getProducts() */
-
-//Datos de la Base de datos
-const cartsDB = new CartManager()
-const productsDB = new ProductManagerDB()
-
-router.get("/home",(req,res)=>{
-
-    res.render("home", {getAllProducts, style: "home.css"})
-    
-})
-
-router.get("/realtimeproducts",(req,res)=>{ 
-
-    res.render("realTimeProducts",{style: "realTimeProducts.css"})
-
-})
-router.get("/chat",(req, res)=>{
-    res.render("chat", {style: "chat.css"})
-})
-
-router.get("/products", auth, async(req, res)=>{
-    let limit = req.query.limit? parseInt(req.query.limit) : 10
-    let page = req.query.page? parseInt(req.query.page) : 1 
-    let sort = req.query.sort
-    let query = {} 
-    let {category, status} = req.query
-    if (category) {query.category = category}
-    if (status){query.status= status}
-    if (sort === "asc" ) { sort = 1}
-    if (sort === "desc") {sort = -1}
-    let optionsWithSort = {page, limit: 4,  sort: { price: sort } , lean:true}
-    let options = {page, limit: 4, lean:true}
-    let usuario = req.session.user
-    console.log(usuario)
-     
-
-    const productsPAGINATE = await productModel.paginate(query, sort? optionsWithSort : options)
-
-    productsPAGINATE.isValid = page >= 1 && page <= productsPAGINATE.totalPages;
-    productsPAGINATE.nextLink = productsPAGINATE.hasNextPage? `http://localhost:8080/products?page=${productsPAGINATE.nextPage}`: "";
-    productsPAGINATE.prevLink = productsPAGINATE.hasPrevPage? `http://localhost:8080/products?page=${productsPAGINATE.prevPage}`: "";
-    productsPAGINATE.currentPage = page
-    
-    res.render("products",{ productsPAGINATE, user: req.session.user, style:"products.css"})
-}) 
-router.get("/cart/:cid",async(req, res)=>{
-    let cid = req.params.cid
-
-    let selectedCart = await cartsDB.getCartById(cid) 
-   
-    res.render("cart", {selectedCart, style:"cart.css"})
-})
-
-router.get("/products/:pid", async(req, res)=>{
-
-    let pid = req.params.pid
-    let result = await productsDB.getById(pid)
-    
-    res.render("productdetail",{ result, style:"productDetail.css"})
-}) 
-
-router.get("/register", (req, res) => {
-    res.render("register", {style:"register.css"})
-  })
-  
-router.get("/login", (req, res) => {
-    res.render("login", {style:"login.css"})
-  })
-
-router.get('/restore', async (req, res) => {
-    res.render('restore',{style: "restore.css"})
-})
+router.get("/home", viewsController.home )
+router.get("/realtimeproducts", auth, viewsController.realtimeProducts)
+router.get("/chat", auth, viewsController.chat)
+router.get("/products", auth, viewsController.products) 
+router.get("/cart/:cid",auth, viewsController.cartById)
+router.get("/products/:pid", auth, viewsController.productDetail) 
+router.get("/register", viewsController.register)
+router.get("/login", viewsController.login)
+router.get('/restore', viewsController.restore)
   
 
 

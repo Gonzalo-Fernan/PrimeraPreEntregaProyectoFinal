@@ -1,16 +1,15 @@
 import express from "express";
 import productsRouter  from "./routes/productRouter.js"
 import cartsRouter from "./routes/cartsRouter.js";
+import sessionRouter from "./routes/sessionRouter.js";
 import __direname from "./utils.js";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import viewsRouter from "./routes/viewsRouter.js"
 import ProductManager from "./managers/products.manager.js";
-import mongoose from 'mongoose';
 import MessagesManager from "./dao/services/messagesManagerDB.js";
 import ProductManagerDB from "./dao/services/productManagerDB.js";
 import cookieParser from "cookie-parser";
-import sessionRouter from "./routes/sessionRouter.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";

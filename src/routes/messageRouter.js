@@ -1,24 +1,11 @@
 import { Router } from "express";
-import MessagesManager from "../dao/services/messagesManagerDB";
+import messageController from "../dao/controllers/message.controller";
 
 const messageRouter = Router()
-const messagesDB = new MessagesManager()
 
 
-messageRouter.get("/", async (req, res)=>{
+messageRouter.get("/", messageController.get)
 
-    let allMessages = await messagesDB.getMessages()
-    res.send(allMessages)
-    res.render("/", {allMessages, style: "chat.css"})
-
-})
-
-messageRouter.post("/newMessage", async(req, res) => {
-
-    let newMessage = await messagesDB.addNewMessage()
-    res.send(newMessage)
-
-
-})
+messageRouter.post("/newMessage", messageController.add )
 
 export default messageRouter

@@ -56,7 +56,6 @@ export default class UserManagerDB {
 
   // Buscar con carritos incluidos
   getAllUsersWithCart = async () => {
-    //logica a implementar
     try {
       const result = await userModel.find().populate("cart.product")
       return result;
@@ -69,7 +68,6 @@ export default class UserManagerDB {
 
   // Paginación
   getPaginatedUsers = async (page = 1, limit = 10) => {
-   //logica a implementar
     try {
       const options = {
         page: parseInt(page),
