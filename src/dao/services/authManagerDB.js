@@ -9,7 +9,6 @@ export default class AuthManager {
 
   async login({ email, password }) {
     try {
-      //lógica a implementar
       const user = await userModel.findOne({ email });
       if (!user) return "Usuario no encontrado";
       const valid = isValidPassword(user, password);

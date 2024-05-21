@@ -1,11 +1,13 @@
-import  productModel  from "../models/products.js"
+import productModel from "../models/products.js"
+import ProductsDTO from "../DTOs/products.dto.js"
 
-export default class ProductManagerDB {
+const DTO = new ProductsDTO()
 
+class ProductRepository {
     constructor(){
-        console.log("Trabajando con productManager")
+
     }
-    getAll = async (params) =>{
+    getAll = async (params)=>{
         try {
             const {
                 limit = 10,
@@ -36,14 +38,15 @@ export default class ProductManagerDB {
         } catch (error) {
             return console.log("Error al cargar los datos")
         }
-        
+
     }
     getById = async (id) => {
         let result = await productModel.findById(id).lean()
         return result
     }
     addProduct = async (product) => {
-        let result = await productModel.create(product)
+        let formatedProdcut = DTO.get(product)
+        let result = await productModel.create(formatedProdcut)
         return result
     }
     updateProduct = async (id, productData) => {
@@ -54,15 +57,5 @@ export default class ProductManagerDB {
         let result = await productModel.deleteOne({_id:id})
         return result
     }
-//buscar con categorias incluidas
-    getAllProductsWithCategories = async () => {
-        //lógica a implementar
-        try {
-            const products = productModel.find().populate("category")
-            return products
-            
-        } catch (error) {
-            console.log("Error al obtener los productos");
-        }
-    }
 }
+export default new ProductRepository()

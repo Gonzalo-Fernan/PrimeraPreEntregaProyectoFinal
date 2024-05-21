@@ -3,7 +3,7 @@ import local from "passport-local";
 import userModel from "../dao/models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2";
-import CartManager from "../dao/services/cartManagerDB.js";
+import CartManager from "../dao/services/cartService.js";
 
 
 const LocalStrategy = local.Strategy;
@@ -32,7 +32,7 @@ const initializePassport = () => {
             age,
             password: createHash(password),
             role,
-            cart
+            cart: cart
           };
 
           // Guardar el usuario

@@ -1,9 +1,9 @@
 import { createHash } from "../../utils.js";
-import userModel from "../../models/user.model.js";
+import userModel from "../models/userModel.js";
 
 
 
-export default class UserManagerDB {
+export default class UserService {
   constructor() {
     console.log("Constructor UserManager");
   }

@@ -2,7 +2,7 @@ import messagesModel from "../models/messages.js";
 
 
 
-export default class MessagesManager {
+export default class MessageService {
     constructor(){
 
     }

@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
+import { environment } from "./environment.config.js"
 
-const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
+const DB_URL = environment.mongo_url
 
 const dbConnection = async()=>{
-    //'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
     try {
         await mongoose.connect(DB_URL)
         console.log("conectado a DB");

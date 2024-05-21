@@ -1,19 +1,19 @@
-import { isValidObjectId } from "mongoose"
-import cartsModel from "../models/carts.js"
-import mongoose from "mongoose"
+import cartsModel from "../models/carts.js";
+import { isValidObjectId } from "mongoose";
+import productRepository from "./product.repository.js";
+import Ticket from "../models/tickectModel.js"
+import { randomCode } from "../../utils.js";
+import UserService from "../services/userService.js";
 
-
-export default class CartManager {
-
+class CartRepository {
     constructor(){
-        console.log("Trabajando con cartManager")
+
     }
-    allCarts = async()=>{
+    get = async()=>{
         let allCarts = await cartsModel.find().populate("products.product")
         return allCarts
     }
-   //""products.product"
-    getCartById = async (id) => {
+    getById = async (id) => {
         try {
             let cart = await cartsModel.findById(id).populate("products.product").lean()
             return cart
@@ -85,5 +85,53 @@ export default class CartManager {
         
 
     }
+     purchaseCart = async (cartId) => {
+        //const user = await UserService.getById(userId)
+        
+        try {
 
+            const cart = await cartsModel.findById(cartId)
+            const totalAmount = 0
+            const productsToPurchase = []
+            const productsToKeepInCart = []
+
+            cart.products.forEach((product)=>{
+
+              if(product.quantity < product.product.stock){
+
+                const newStock = product.product.stock - product.quantity
+
+                productsToPurchase.push(product)
+
+                productRepository.updateProduct(product._id, {stock: newStock})
+
+                totalAmount + product.product.price
+                
+              }
+              //si no hay suficiente stock, el producto queda en el carrito y no se compra
+              if (product.quantity > product.product.stock){
+                productsToKeepInCart.push(product._id)
+              }
+            })
+            
+            const ticket = new Ticket({
+                code: randomCode(10),
+                purchaseDatetime: new Date(),
+                amount: totalAmount,
+                purchaser: "664d059e20844980baa5d80a"
+            })
+
+            await ticket.save()
+            console.log(ticket);
+            console.log(cart.products);
+            console.log(productsToPurchase);
+
+        }catch (error) {
+            console.log(error, "no se pudo efectuar la compra")
+            console.log(cart)
+            console.log(cartId)
+        }
+    } 
+       
 }
+export default new CartRepository()

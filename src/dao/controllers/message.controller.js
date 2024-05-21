@@ -1,6 +1,6 @@
-import MessagesManager from "../services/messagesManagerDB"
+import MessageService from "../services/messageService.js"
 
-const messagesDB = new MessagesManager()
+const messagesDB = new MessageService()
 
 class MessageController{
     constructor(){

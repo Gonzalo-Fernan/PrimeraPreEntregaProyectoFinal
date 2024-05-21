@@ -18,5 +18,19 @@ export const generateToken=(email)=>{
   return jwt.sign({email},JWT_SECRET,{ expiresIn:"1h" })
 }
 
+export const randomCode = (longitud) =>{
+
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let codigoAleatorio = ''
+
+    for (let i = 0; i < longitud; i++) {
+        const indiceAleatorio = Math.floor(Math.random() * caracteres.length)
+        codigoAleatorio += caracteres[indiceAleatorio]
+    }
+
+    return codigoAleatorio
+
+}
+
 
 export default __direname;

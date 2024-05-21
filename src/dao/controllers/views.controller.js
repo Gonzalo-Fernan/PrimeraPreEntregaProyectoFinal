@@ -1,7 +1,8 @@
 import productModel from "../models/products.js"
-import ProductManagerDB from "../services/productManagerDB.js"
+import ProductService from "../services/productService.js"
 
-const productsDB = new ProductManagerDB()
+
+const productsDB = new ProductService()
 class ViewsController{
     constructor(){
 
