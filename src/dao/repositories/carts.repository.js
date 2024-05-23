@@ -89,11 +89,13 @@ class CartRepository {
     }
      purchaseCart = async (cartId) => {
         try {
-            const cart = await cartsModel.findById(cartId).populate("products.product").lean()
+            const cart = await this.getById(cartId)
+            const user =  await userService.getUserByCart(cartId)
+        
             let totalAmount = 0
             const productsToPurchase = []
             const productsToKeepInCart = []
-            const user =  await userService.getUserByCart(cartId)
+           
 
             cart.products.forEach((product)=>{
 
@@ -106,12 +108,11 @@ class CartRepository {
                 productRepository.updateProduct(product._id, {stock: newStock})
 
                 totalAmount += product.product.price
-                
                
               }
               //si no hay suficiente stock, el producto queda en el carrito y no se compra
               if (product.quantity > product.product.stock){
-                productsToKeepInCart.push(product._id)
+                productsToKeepInCart.push(product)
               }
             })
             
@@ -121,10 +122,11 @@ class CartRepository {
                 amount: totalAmount,
                 purchaser: user.email
             })
-
             await ticket.save()
-            // agregar logica para que el carrito quede con los productos que no se pudieron comprar 
+            await this.deleteAllProducts(cartId)
+            await this.addManyProducts(cartId, productsToKeepInCart)
 
+            return productsToPurchase
         }catch (error) {
             console.log(error, "no se pudo efectuar la compra")
         }

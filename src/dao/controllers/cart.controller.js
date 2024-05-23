@@ -84,9 +84,7 @@ class CartsController{
     }
    async purchaseCart (req, res)  {
         const cartId = req.params.cid
-        //const userId = req.session.user
-        //console.log(userId.cart.user);
-
+        
         try {
             const ticket = await cartsService.purchaseCart(cartId)
             return res.send(ticket)
