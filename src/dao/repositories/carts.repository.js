@@ -5,6 +5,8 @@ import Ticket from "../models/tickectModel.js"
 import { randomCode } from "../../utils.js";
 import UserService from "../services/userService.js";
 
+const userService = new UserService()
+
 class CartRepository {
     constructor(){
 
@@ -86,14 +88,12 @@ class CartRepository {
 
     }
      purchaseCart = async (cartId) => {
-        //const user = await UserService.getById(userId)
-        
         try {
-
-            const cart = await cartsModel.findById(cartId)
-            const totalAmount = 0
+            const cart = await cartsModel.findById(cartId).populate("products.product").lean()
+            let totalAmount = 0
             const productsToPurchase = []
             const productsToKeepInCart = []
+            const user =  await userService.getUserByCart(cartId)
 
             cart.products.forEach((product)=>{
 
@@ -105,8 +105,9 @@ class CartRepository {
 
                 productRepository.updateProduct(product._id, {stock: newStock})
 
-                totalAmount + product.product.price
+                totalAmount += product.product.price
                 
+               
               }
               //si no hay suficiente stock, el producto queda en el carrito y no se compra
               if (product.quantity > product.product.stock){
@@ -118,18 +119,14 @@ class CartRepository {
                 code: randomCode(10),
                 purchaseDatetime: new Date(),
                 amount: totalAmount,
-                purchaser: "664d059e20844980baa5d80a"
+                purchaser: user.email
             })
 
             await ticket.save()
-            console.log(ticket);
-            console.log(cart.products);
-            console.log(productsToPurchase);
+            // agregar logica para que el carrito quede con los productos que no se pudieron comprar 
 
         }catch (error) {
             console.log(error, "no se pudo efectuar la compra")
-            console.log(cart)
-            console.log(cartId)
         }
     } 
        

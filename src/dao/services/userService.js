@@ -80,4 +80,14 @@ export default class UserService {
       console.log(error, "Error al realizar la paginación ");
     }
   };
+  getUserByCart = async (cid) => {
+    try {
+      const user = await userModel.findOne({cart:cid})
+
+      return user
+
+    } catch (error) {
+      console.log(error, "Error al buscar el usuario");
+    }
+  };
 }

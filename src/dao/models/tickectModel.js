@@ -6,6 +6,7 @@ const { Schema } = mongoose
 const ticketSchema = new mongoose.Schema({
     code: {
         type: String,
+        require: true
        
     },
     purchase_datetime: {
@@ -17,7 +18,7 @@ const ticketSchema = new mongoose.Schema({
         required: true
     },
     purchaser: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: "Users",
       },
 });

@@ -61,7 +61,7 @@ class UserController{
         
         let currentUser = userDTO.get(req.session.user)
 
-        req.session.user? res.send({status: "success",payload:currentUser}): res.send({message: "ususario no encontrado"})
+        req.session.user? res.send({status: "success", payload: currentUser}): res.send({message: "ususario no encontrado"})
 
     }
     

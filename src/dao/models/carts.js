@@ -7,7 +7,10 @@ const { Schema } = mongoose
 const collection = "Carts"
 
 const schema = new Schema({
-
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users"
+    },
     products: [{
         product: {
             type: mongoose.Schema.Types.ObjectId,

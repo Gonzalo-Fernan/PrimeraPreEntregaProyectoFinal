@@ -1,5 +1,6 @@
 import productModel from "../models/products.js"
 import ProductsDTO from "../DTOs/products.dto.js"
+import UserService from "../services/userService.js"
 
 const DTO = new ProductsDTO()
 
