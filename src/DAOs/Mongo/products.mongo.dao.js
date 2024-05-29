@@ -1,10 +1,9 @@
-import productModel from "../models/products.js"
-import ProductsDTO from "../DTOs/products.dto.js"
-import UserService from "../services/userService.js"
+import productModel from "../../dao/models/products.js"
+import ProductsDTO from "../../dao/DTOs/products.dto.js"
 
 const DTO = new ProductsDTO()
 
-class ProductRepository {
+class ProductsMongoDao {
     constructor(){
 
     }
@@ -59,4 +58,4 @@ class ProductRepository {
         return result
     }
 }
-export default new ProductRepository()
+export default new ProductsMongoDao()

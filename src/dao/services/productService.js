@@ -1,4 +1,4 @@
-import ProductRepository from "../repositories/product.repository.js"
+import productsMongoDao from "../../DAOs/Mongo/products.mongo.dao.js"
 
 export default class ProductService {
 
@@ -7,16 +7,15 @@ export default class ProductService {
     }
     getAll = async (params) =>{
         try {
-            const products = await ProductRepository.getAll(params)
+            const products = await productsMongoDao.getAll(params)
             return products
+        } catch (error) {
+            console.log("Error al obtener los productos");
         }
-        catch (error) {
-            throw new Error("Error al obtener los productos: " + error.message)
-        }   
     }
     getById = async (id) => {
         try {
-            let result = await ProductRepository.getById(id)
+            let result = await productsMongoDao.getById(id)
             return result
             
         } catch (error) {
@@ -25,7 +24,7 @@ export default class ProductService {
     }
     addProduct = async (product) => {
         try {
-            let result = await ProductRepository.addProduct(product)
+            let result = await productsMongoDao.addProduct(product)
             return result
             
         } catch (error) {
@@ -34,7 +33,7 @@ export default class ProductService {
     }
     updateProduct = async (id, productData) => {
         try {
-            let result = await ProductRepository.updateProduct(id, productData)
+            let result = await productsMongoDao.updateProduct(id, productData)
             return result 
         } catch (error) {
             console.log("error al actualizar el producto");
@@ -43,7 +42,7 @@ export default class ProductService {
     }
     deleteProduct = async (id) => {
         try {
-            let result = await ProductRepository.deleteProduct(id)
+            let result = await productsMongoDao.deleteProduct(id)
             return result
         } catch (error) {
             console.log("error al eliminar el producto");

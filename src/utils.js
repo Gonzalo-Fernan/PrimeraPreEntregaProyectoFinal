@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
+import { fakerES as faker } from "@faker-js/faker";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,6 +32,25 @@ export const randomCode = (longitud) =>{
     return codigoAleatorio
 
 }
+
+export const generateMockProducts = () => {
+  const products = [];
+  for (let i = 0; i < 100; i++) {
+      products.push({
+          _id: faker.database.mongodbObjectId,
+          title: faker.commerce.productName(),
+          description: faker.commerce.productDescription(),
+          price: faker.commerce.price(),
+          stock: faker.number.int(),
+          category: faker.commerce.department(),
+          thumbnail: faker.image.urlLoremFlickr({width: 240}),
+          code: faker.string.numeric(),
+          status: faker.datatype.boolean() 
+      });
+  }
+  return products;
+};
+
 
 
 export default __direname;

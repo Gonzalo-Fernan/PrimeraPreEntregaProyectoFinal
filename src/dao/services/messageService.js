@@ -1,5 +1,4 @@
-import messagesModel from "../models/messages.js";
-
+import messagesMongoDao from "../../DAOs/Mongo/messages.mongo.dao.js";
 
 
 export default class MessageService {
@@ -9,7 +8,7 @@ export default class MessageService {
     getMessages = async () => {
 
         try {
-            await messagesModel.find().lean()
+            await messagesMongoDao.getMessages()
         } catch (error) {
             console.log(error, "no se pudieron mostrar los mensajes");
         }
@@ -17,11 +16,7 @@ export default class MessageService {
     }
     addNewMessage = async (newMessage) =>{
         try {
-            const messageToAdd = new messagesModel
-            messageToAdd.user = newMessage.user
-            messageToAdd.message= newMessage.message
-          
-            await messageToAdd.save()
+            await messagesMongoDao.addNewMessage()
 
         } catch (error) {
             console.log(error, "no se pudo agregar el mensaje");

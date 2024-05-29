@@ -1,5 +1,4 @@
-import cartsRepository from "../repositories/carts.repository.js"
-
+import cartsMongoDao from "../../DAOs/Mongo/carts.mongo.dao.js"
 
 export default class CartService {
 
@@ -8,7 +7,7 @@ export default class CartService {
     }
     get = async()=>{
         try {
-            let allCarts = await cartsRepository.get()
+            let allCarts = await cartsMongoDao.get()
         return allCarts
             
         } catch (error) {
@@ -18,7 +17,7 @@ export default class CartService {
     }
     getById = async (id) => {
         try {
-            let cart = await cartsRepository.getById(id)
+            let cart = await cartsMongoDao.getById(id)
             return cart
         } catch (error) {
             console.log(error, "no se encontro el carrito selecionado");
@@ -28,7 +27,7 @@ export default class CartService {
 
     createCart = async () => {
          try {
-            let result = await cartsRepository.createCart()
+            let result = await cartsMongoDao.createCart()
             return result 
         }
         catch (error) {
@@ -40,7 +39,7 @@ export default class CartService {
     addProduct = async (cid, pid) => {
 
         try {
-           let newProduct = await cartsRepository.addProduct(cid, pid)
+           let newProduct = await cartsMongoDao.addProduct(cid, pid)
            return newProduct
         } catch (error) {
             console.error(error,"error al agregar el producto");
@@ -48,14 +47,14 @@ export default class CartService {
     }
     deleteProduct = async (cid, pid) => {
         try {
-            let deletedProduct = await cartsRepository.deleteProduct(cid,pid)
+            let deletedProduct = await cartsMongoDao.deleteProduct(cid,pid)
         } catch (error) {
             console.log("No se pudo eliminar el producto");
         }
     }
     updateQuantity = async (cid, pid, quantity)=>{
         try {
-            let updatedCart = await cartsRepository.updateQuantity(cid,pid,quantity)
+            let updatedCart = await cartsMongoDao.updateQuantity(cid,pid,quantity)
             return updatedCart
             
         } catch (error) {
@@ -66,7 +65,7 @@ export default class CartService {
     }
     deleteAllProducts = async (cid)=>{
         try {
-            let deleteAll = await cartsRepository.deleteAllProducts(cid)
+            let deleteAll = await cartsMongoDao.deleteAllProducts(cid)
             return deleteAll
         } catch (error) {
             console.log("error al eliminar los productos");
@@ -75,7 +74,7 @@ export default class CartService {
     }
     addManyProducts = async (cid , newProducts) => {
         try {
-            let manyProducts = await cartsRepository.addManyProducts(cid, newProducts)
+            let manyProducts = await cartsMongoDao.addManyProducts(cid, newProducts)
             return manyProducts
         } catch (error) {
             console.log("error al agregar los productos");
@@ -85,7 +84,7 @@ export default class CartService {
     }
      purchaseCart = async (cartId) => {
         try {
-           let purchaseCart = await cartsRepository.purchaseCart(cartId)
+           let purchaseCart = await cartsMongoDao.purchaseCart(cartId)
            return purchaseCart
         } catch (error) {
             console.log("error al efectuar la compra del carrito");

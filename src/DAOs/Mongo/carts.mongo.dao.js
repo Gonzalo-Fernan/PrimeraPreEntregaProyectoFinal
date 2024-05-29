@@ -1,13 +1,13 @@
-import cartsModel from "../models/carts.js";
+import cartsModel from "../../dao/models/carts.js";
 import { isValidObjectId } from "mongoose";
-import productRepository from "./product.repository.js";
-import Ticket from "../models/tickectModel.js"
+import productsMongoDao from "./products.mongo.dao.js";
+import Ticket from "../../dao/models/tickectModel.js"
 import { randomCode } from "../../utils.js";
-import UserService from "../services/userService.js";
+import UserService from "../../dao/services/userService.js";
 
 const userService = new UserService()
 
-class CartRepository {
+class CartMongoDao {
     constructor(){
 
     }
@@ -105,7 +105,7 @@ class CartRepository {
 
                 productsToPurchase.push(product)
 
-                productRepository.updateProduct(product._id, {stock: newStock})
+                productsMongoDao.updateProduct(product._id, {stock: newStock})
 
                 totalAmount += product.product.price
                
@@ -133,4 +133,4 @@ class CartRepository {
     } 
        
 }
-export default new CartRepository()
+export default new CartMongoDao()
