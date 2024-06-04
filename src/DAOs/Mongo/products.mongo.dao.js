@@ -8,7 +8,7 @@ class ProductsMongoDao {
 
     }
     getAll = async (params)=>{
-        try {
+      try{
             const {
                 limit = 10,
                 page = 1,
@@ -37,8 +37,7 @@ class ProductsMongoDao {
 
         } catch (error) {
             return console.log("Error al cargar los datos")
-        }
-
+        } 
     }
     getById = async (id) => {
         let result = await productModel.findById(id).lean()

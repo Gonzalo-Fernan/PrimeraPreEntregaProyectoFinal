@@ -15,6 +15,7 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 import initilizePassport from "./config/passport.config.js";
 import dbConnection from "./config/db.config.js";
+import loggerRouter from "./routes/loggerRouter.js";
 
 const app = express()
 const port = 8080
@@ -63,6 +64,7 @@ app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
 app.use(viewsRouter)
 app.use("/api/sessions/", sessionRouter)
+app.use("/", loggerRouter)
 
 //Server
 const server = app.listen(port, () => console.log(`Servidor Levantado en puerto: ${port}`))

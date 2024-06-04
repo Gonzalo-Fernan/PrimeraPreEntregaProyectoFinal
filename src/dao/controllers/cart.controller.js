@@ -1,3 +1,4 @@
+import logger from "../../../logger.js"
 import CartService from "../services/cartService.js"
 
 const cartsService = new CartService()
@@ -7,8 +8,12 @@ class CartsController{
 
     }
     async get (req,res){
-        let allCarts = await cartsService.get()
-        res.status(200).send({status: 'success', payload: allCarts})
+        try {
+            let allCarts = await cartsService.get()
+            res.status(200).send({status: 'success', payload: allCarts})
+        } catch (error) {
+            logger.error("Error al obtener los carritos")
+        }
     }
     async getById (req, res){
         try {
@@ -17,22 +22,26 @@ class CartsController{
             res.status(200).send({status: 'success', payload: selectedCart})
             } 
         catch (error) {
-                console.log("error");
+               logger.error("Error al obtener el carrito seleccionado") 
             }
        
     }
     async add(req,res){
-        let cid = req.params.cid
-        let pid = req.params.pid
-        let newProductInCart = await cartsService.addProduct(cid, pid)
-        res.status(200).send({status: 'success', payload: newProductInCart})
+        try {
+            let cid = req.params.cid
+            let pid = req.params.pid
+            let newProductInCart = await cartsService.addProduct(cid, pid)
+            res.status(200).send({status: 'success', payload: newProductInCart}) 
+        } catch (error) {
+            logger.error("Error al agregar el producto al carrito")
+        }
     }
     async create(req,res){
         try {
             const newCart = await cartsService.createCart()
             res.status(200).send({status: 'success', payload: newCart})
         } catch (error) {
-            console.error("Error al agregar el carrito:", error)
+            logger.error(error, "Error al crear el carrito") 
         }
     
         
@@ -47,20 +56,21 @@ class CartsController{
             res.status(200).send({status: 'success', payload: updated})
     
         } catch (error) {
-    
-            console.log(error, "nose pudo actualizar la cantidad indicada")
-            res.send("nose pudo actualizar la cantidad indicada")
-    
+            logger.error("Error al actualizar la cantidad")
         }
         
        
     }
     async delete (req,res){
-        let cid = req.params.cid
-        let pid = req.params.pid
-
-        let deletedProduct = await cartsService.deleteProduct(cid, pid)
-        res.status(200).send({status: 'success', payload: deletedProduct})
+        try {
+            let cid = req.params.cid
+            let pid = req.params.pid
+    
+            let deletedProduct = await cartsService.deleteProduct(cid, pid)
+            res.status(200).send({status: 'success', payload: deletedProduct})    
+        } catch (error) {
+            logger.error("Error al eliminar el carrito seleccionado")
+        }
     }
     async deleteAll (req,res){
         try {
@@ -68,7 +78,7 @@ class CartsController{
             let deleteAll = await cartsService.deleteAllProducts(cid)
             res.status(200).send({status: 'success', payload: deleteAll})
         } catch (error) {
-            res.send(error, "no se pudieron eliminar los productos")
+            logger.error("Error al eliminar los carritos")
         }
     }
     async addMany (req, res){
@@ -79,7 +89,7 @@ class CartsController{
             return res.status(200).send({status: 'success', payload: cartUpdated})
             
         } catch (error) {
-            console.log("Error al intentar agregar varios podructos");
+            logger.error("Error al agregar los productos")
         }
     }
    async purchaseCart (req, res)  {
@@ -90,7 +100,7 @@ class CartsController{
             return res.send(ticket)
 
         } catch (error) {
-            return res.status(500).json({ error: "Error al realizar la compra"})
+            logger.error("Error al efectuar la compra del carrito")
         }
     }
 } 

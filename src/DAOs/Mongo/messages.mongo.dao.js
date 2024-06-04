@@ -1,4 +1,5 @@
 import messagesModel from "../../dao/models/messages.js";
+import logger from "../../../logger.js"
 
 class MessageMongoDao {
     constructor(){
@@ -9,7 +10,7 @@ class MessageMongoDao {
         try {
             await messagesModel.find().lean()
         } catch (error) {
-            console.log(error, "no se pudieron mostrar los mensajes");
+            logger.error("Error al obtener los mensajes")
         }
 
     }
@@ -22,7 +23,7 @@ class MessageMongoDao {
             await messageToAdd.save()
 
         } catch (error) {
-            console.log(error, "no se pudo agregar el mensaje");
+            logger.error("no se pudo agregar el mensaje");
         }
 
     }

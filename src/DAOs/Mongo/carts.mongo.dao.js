@@ -16,29 +16,16 @@ class CartMongoDao {
         return allCarts
     }
     getById = async (id) => {
-        try {
             let cart = await cartsModel.findById(id).populate("products.product").lean()
-            return cart
-        } catch (error) {
-            console.log(error, "no se encontro el carrito selecionado");
-        }
-        
+            return cart 
     }
 
     createCart = async () => {
-         try {
             let result = await cartsModel.create({})
             return result 
-        }
-        catch (error) {
-            console.error("error al agregar el carrito", error)
-        } 
-        
     }
 
     addProduct = async (cid, pid) => {
-
-        try {
             let cart = await cartsModel.findById(cid)
             let productIndex = cart.products.findIndex(product => product._id.equals(pid))
             if (productIndex !== -1) {
@@ -48,9 +35,7 @@ class CartMongoDao {
                 cart.products.push({_id:pid, quantity:1, product: pid})
                 return await cart.save()
             }
-        } catch (error) {
-            console.error(error,"error en el agregado del producto");
-        }  
+     
     }
     deleteProduct = async (cid, pid) => {
         let cart = await cartsModel.findById(cid)

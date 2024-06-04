@@ -6,47 +6,24 @@ export default class ProductService {
         console.log("Trabajando con productManager")
     }
     getAll = async (params) =>{
-        try {
-            const products = await productsMongoDao.getAll(params)
-            return products
-        } catch (error) {
-            console.log("Error al obtener los productos");
-        }
-    }
-    getById = async (id) => {
-        try {
-            let result = await productsMongoDao.getById(id)
-            return result
-            
-        } catch (error) {
-            console.log("error al obterner el producto");
-        }
-    }
-    addProduct = async (product) => {
-        try {
-            let result = await productsMongoDao.addProduct(product)
-            return result
-            
-        } catch (error) {
-            console.log("error al agregar el producto");
-        }
-    }
-    updateProduct = async (id, productData) => {
-        try {
-            let result = await productsMongoDao.updateProduct(id, productData)
-            return result 
-        } catch (error) {
-            console.log("error al actualizar el producto");
-        }
+        const products = await productsMongoDao.getAll(params)
+        return products
         
     }
+    getById = async (id) => {
+        let result = await productsMongoDao.getById(id)
+        return result     
+    }
+    addProduct = async (product) => {
+        let result = await productsMongoDao.addProduct(product)
+        return result  
+    }
+    updateProduct = async (id, productData) => {
+        let result = await productsMongoDao.updateProduct(id, productData)
+        return result 
+    }
     deleteProduct = async (id) => {
-        try {
-            let result = await productsMongoDao.deleteProduct(id)
-            return result
-        } catch (error) {
-            console.log("error al eliminar el producto");
-        }
-       
+        let result = await productsMongoDao.deleteProduct(id)
+        return result
     }
 }

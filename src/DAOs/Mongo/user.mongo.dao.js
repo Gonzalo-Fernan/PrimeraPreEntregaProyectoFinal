@@ -3,6 +3,7 @@ import userModel from "../../dao/models/userModel.js"
 
 
 
+
 class UserMongoDao {
   constructor() {
     console.log("Constructor UserManager");
@@ -19,20 +20,10 @@ class UserMongoDao {
   };
 
   createUser = async (userData) => {
-    try {
-
       userData.password = createHash(userData.password);
       const result = await userModel.create(userData);
       return result
-
-    } catch (error) {
-
-      console.log(error, "No se pudo crear el usuario correctamente")
-      
-    }
-
-
-  };
+  }
 
   updateUser = async (id, userData) => {
     // Hashear la contraseña antes de actualizar el usuario
