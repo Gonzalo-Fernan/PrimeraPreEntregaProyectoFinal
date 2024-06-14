@@ -59,4 +59,8 @@ export default class UserService {
 
     return user
   };
+  getByEmail = async (email) =>{
+    const user = await userModel.findOne({email: email})
+    return user
+  }
 }

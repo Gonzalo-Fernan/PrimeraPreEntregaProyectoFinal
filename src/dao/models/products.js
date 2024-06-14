@@ -38,6 +38,11 @@ const schema = new Schema({
         type: String,
         required: true,
     },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        default: "admin"
+    }
 
 })
 schema.plugin(mongoosePaginate)

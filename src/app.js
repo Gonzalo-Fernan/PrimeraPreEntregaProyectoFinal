@@ -16,9 +16,9 @@ import passport from "passport";
 import initilizePassport from "./config/passport.config.js";
 import dbConnection from "./config/db.config.js";
 import loggerRouter from "./routes/loggerRouter.js";
+import mailerRouter from "./routes/mailerRouter.js";
 
 const app = express()
-const port = 8080
 const PATH = "./src/data/products.json"
 const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
 //conexion con la base de datos
@@ -65,9 +65,10 @@ app.use("/api/carts/", cartsRouter)
 app.use(viewsRouter)
 app.use("/api/sessions/", sessionRouter)
 app.use("/", loggerRouter)
+app.use("/", mailerRouter)
 
 //Server
-const server = app.listen(port, () => console.log(`Servidor Levantado en puerto: ${port}`))
+const server = app.listen(process.env.PORT, () => console.log(`Servidor Levantado en puerto: ${process.env.PORT}`))
 const io = new Server(server)
 
 

@@ -2,6 +2,10 @@ import userModel from "../models/userModel.js";
 import UserDTO from "../DTOs/user.dto.js";
 import UserService from "../services/userService.js";
 import logger from "../../../logger.js";
+//import { generateToken , validateToken } from "../../utils.js";
+import { sendEmail } from "../../config/mailer.config.js";
+
+
 
 
 const userDTO = new UserDTO()
@@ -35,8 +39,8 @@ class UserController{
         try {
             const { email, password } = req.body;
             const userdata ={email, password}
-            const user = await userModel.findOne({ email })
-    
+            const user = await userService.getByEmail(email)
+            
             await userService.updateUser(user.id, userdata)
             res.send({ status: "success", message: "Password actualizada" })
             
@@ -81,6 +85,30 @@ class UserController{
             logger.error("Error al obtener datos de sesión")
         }
     }
+    async restorePassword (req, res){
+         try {
+            const {email} = req.user
+           
+            if (!email) return  res.status(404).send({status: "error", error: "No se encontro el usuario"})
+            
+            //const token = generateToken(email)
+            const mailToSend = {
+                to: email,
+                subjet: "Recuperación de Contraseña",
+                html:` 
+                    <p>Recuperar contraseña haciendo click en el boton</p>
+                    <button><a href="http://localhost:8080/restore>Restaurar Contraseña</a></button>`,
+            }
+            await sendEmail(mailToSend)
+            res.status(200).send("Correo enviado exitosamente")
+            
+        } catch (error) {
+            logger.error("No se pudo restaurar la contraseña")
+        } 
+        
+
+
+    } 
     
 } 
 

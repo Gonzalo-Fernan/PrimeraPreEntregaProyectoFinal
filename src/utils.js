@@ -3,6 +3,7 @@ import { dirname } from "path";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { fakerES as faker } from "@faker-js/faker";
+import { config } from "dotenv";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,6 +18,14 @@ export const isValidPassword = (user, password) => {
 //generar Token jwt
 export const generateToken=(email)=>{
   return jwt.sign({email},JWT_SECRET,{ expiresIn:"1h" })
+}
+export const validateToken = (token) =>{
+  try {
+    const decoded = jwt.verify(token, config.jwt.SECRET)
+    return decoded
+  } catch (error) {
+    return null 
+  }
 }
 
 export const randomCode = (longitud) =>{
