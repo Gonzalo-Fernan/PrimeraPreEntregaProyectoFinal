@@ -1,9 +1,8 @@
-import userModel from "../models/userModel.js";
 import UserDTO from "../DTOs/user.dto.js";
 import UserService from "../services/userService.js";
 import logger from "../../../logger.js";
-//import { generateToken , validateToken } from "../../utils.js";
-import { sendEmail } from "../../config/mailer.config.js";
+import { generateToken , validateToken } from "../../utils.js";
+import nodemailer from "nodemailer";
 
 
 
@@ -40,6 +39,11 @@ class UserController{
             const { email, password } = req.body;
             const userdata ={email, password}
             const user = await userService.getByEmail(email)
+
+            if (user.password === password){
+
+                return console.log("Error misma contraseña");//logger.error("Debe ingresar una contraseña distinta a la actual")
+            } 
             
             await userService.updateUser(user.id, userdata)
             res.send({ status: "success", message: "Password actualizada" })
@@ -85,30 +89,52 @@ class UserController{
             logger.error("Error al obtener datos de sesión")
         }
     }
-    async restorePassword (req, res){
-         try {
-            const {email} = req.user
-           
-            if (!email) return  res.status(404).send({status: "error", error: "No se encontro el usuario"})
-            
+    async sendMail (req, res){
+        try {
+            const {email} = req.body
+            if (!email) return res.status(404).send({status: "error", error: "No se encontro el usuario"})
             //const token = generateToken(email)
-            const mailToSend = {
+
+            const transport = nodemailer.createTransport({
+                service: "gmail",
+                host:"smtp.gmail.com",
+                secure: false,
+                port: 587,
+                auth:{
+                  user:process.env.MAIL_USERNAME,
+                  pass:process.env.MAIL_PASSWORD
+                }
+              })
+
+            const mail = await transport.sendMail({
+                from: `${process.env.MAIL_USERNAME}`,
                 to: email,
-                subjet: "Recuperación de Contraseña",
+                subject: "Recuperación de Contraseña",
                 html:` 
                     <p>Recuperar contraseña haciendo click en el boton</p>
-                    <button><a href="http://localhost:8080/restore>Restaurar Contraseña</a></button>`,
-            }
-            await sendEmail(mailToSend)
+                    <a href="http://localhost:8080/restore>Restaurar Contraseña</a>`,
+            
+              })
+
             res.status(200).send("Correo enviado exitosamente")
             
-        } catch (error) {
+         } catch (error) {
             logger.error("No se pudo restaurar la contraseña")
-        } 
-        
+        }  
+    }
+    async changeRole (req, res){
+        try {
+            const { email, role } = req.body
+            const user = await userService.getByEmail(email)
+            user.role = role
+            
+            res.status(200).send("Correo enviado exitosamente")
 
-
+        } catch (error) {
+            logger.error("Error al cambiar el rol")
+        }
     } 
+  
     
 } 
 

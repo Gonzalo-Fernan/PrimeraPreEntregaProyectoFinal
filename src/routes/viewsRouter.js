@@ -12,6 +12,8 @@ router.get("/products/:pid", auth, viewsController.productDetail)
 router.get("/register", viewsController.register)
 router.get("/login", viewsController.login)
 router.get('/restore', viewsController.restore)
+router.get('/mail', viewsController.restorePasword)
+
   
 
 

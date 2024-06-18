@@ -4,6 +4,7 @@ import userController from "../dao/controllers/user.controller.js";
 
 const mailerRouter = Router()
 
-mailerRouter.get("/mail", userController.restorePassword)
+mailerRouter.post("/mail", userController.sendMail)
+
 
 export default mailerRouter

@@ -63,6 +63,9 @@ class ViewsController{
     async restore (req,res){
         res.render('restore',{style: "restore.css"})
     }
+    async restorePasword (req, res) {
+        res.render('mailer',{style: "mailer.css"})
+    }
 } 
 
 export default new ViewsController();

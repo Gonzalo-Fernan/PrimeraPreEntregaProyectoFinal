@@ -65,7 +65,7 @@ app.use("/api/carts/", cartsRouter)
 app.use(viewsRouter)
 app.use("/api/sessions/", sessionRouter)
 app.use("/", loggerRouter)
-app.use("/", mailerRouter)
+app.use("/api/mailer/", mailerRouter)
 
 //Server
 const server = app.listen(process.env.PORT, () => console.log(`Servidor Levantado en puerto: ${process.env.PORT}`))

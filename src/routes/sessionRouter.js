@@ -22,4 +22,5 @@ sessionRouter.get("/github",passport.authenticate("github", { scope: ["user:emai
 //ruta que nos lleva a github login
 sessionRouter.get("/githubcallback",passport.authenticate("github", { failureRedirect: "/login" }), userController.githubCallback);
 sessionRouter.get("/current", userController.current)
+sessionRouter.get ("/premium/:uid")
 

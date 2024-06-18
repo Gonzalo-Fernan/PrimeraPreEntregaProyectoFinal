@@ -12,7 +12,7 @@ const transport = nodemailer.createTransport({
     }
   })
 
-  export async function sendEmail({to, subject, html}) {
+  export async function sendEmail(to, subject, html) {
     const mailOptions = {
       from: process.env.MAIL_USERNAME,
       to: to,
@@ -27,19 +27,3 @@ const transport = nodemailer.createTransport({
         console.log("Error al enviar el email")
     }
 }
-
-
- /*  app.get("/mail", async (req, res)=>{
-    const result = await transport.sendMail({
-      from:"Correo de prueba",
-      to:`${process.env.MAIL_USERNAME}`,
-      subject: "Correo de prueba",
-      html:`<div>
-                <h1>CORREO TEST</h1>
-                <p>Correo sin adjuntos</p>
-            </div>`,
-  
-    })
-    res.send("Correo enviado")
-  
-  }) */
