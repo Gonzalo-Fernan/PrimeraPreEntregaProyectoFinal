@@ -1,0 +1,96 @@
+paths:
+  /api/products:
+    get:
+      summary: obtine los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Productos cargados correctamente
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"  
+        "500": 
+          description: Error del servidor
+    post:
+      summary: Agregar un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error en la base de datos         
+  /api/product/{pid}:
+    get:
+      summary: Obtener detalle de un producto por ID
+      tags: 
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        schema:
+          type: string
+        responses:
+          '200':
+            description: Retorna los detalles de un producto
+            content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          '500':
+            description: Error en la base de datos 
+                     
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: number  
+        price:
+          type: number
+        status: 
+          type: boolean  
+        stock:
+          type: number
+        thumbnails:
+          type: array  
+        category:
+          type: string
+        owner:
+          type: object
+          properties:
+            _id:
+              type: string
+      example:
+        _id: "nbasdjkas234234nbjhnb23jh4FZFDSDF2455"
+        title: "Maquina Recta Familiar"
+        description: "Maquina de coser recta familiar multifuncion ojal en 1 paso"
+        code: 12548
+        price: 580000
+        status: true
+        stock: 12
+        thumbnails: [www.blabla.maquina.png]
+        category: "maquina"
+        owner: admin

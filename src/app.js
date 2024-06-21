@@ -17,6 +17,9 @@ import initilizePassport from "./config/passport.config.js";
 import dbConnection from "./config/db.config.js";
 import loggerRouter from "./routes/loggerRouter.js";
 import mailerRouter from "./routes/mailerRouter.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+import logger from "../logger.js";
 
 const app = express()
 const PATH = "./src/data/products.json"
@@ -33,6 +36,23 @@ const getMessages = await messages.getMessages()
 //Products DB
 const productsDB = new ProductService()
 const allProductsDB = await productsDB.getAll()
+
+//swagger
+const swaggerOptions = {
+  definition: {
+      openapi: "3.0.1",
+      info: {
+          title: "API Otherness",
+          description: "API para adquirir productos de merceria y maquinas de coser online"
+      }
+  }, 
+  apis: [`${__direname}/src/docs/**/*.yaml`]
+} 
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs, {
+  customCss: ".swagger-ui .topbar {display: none}"
+}));
 
 //Middlewares
 app.use(express.static(__direname +"/public"))
