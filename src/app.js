@@ -19,7 +19,7 @@ import loggerRouter from "./routes/loggerRouter.js";
 import mailerRouter from "./routes/mailerRouter.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
-import logger from "../logger.js";
+
 
 const app = express()
 const PATH = "./src/data/products.json"
