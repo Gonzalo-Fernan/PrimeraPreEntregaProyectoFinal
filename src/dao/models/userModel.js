@@ -23,10 +23,16 @@ const schema = new mongoose.Schema({
     cart : {
       type: Schema.Types.ObjectId,
       ref: "Carts",
-    }
+    },
+    documents: [
+        {
+            name: String,
+            reference: String
+        }
+    ],
+    last_connection: Date
 })
 schema.plugin(mongoosePaginate)
-
 const userModel = mongoose.model(collection,schema);
 
 export default userModel;

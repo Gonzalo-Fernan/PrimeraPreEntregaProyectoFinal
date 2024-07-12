@@ -1,5 +1,6 @@
 import { createHash } from "../../utils.js";
 import userModel from "../../dao/models/userModel.js"
+import logger from "../../../logger.js";
 
 
 
@@ -58,17 +59,13 @@ class UserMongoDao {
   };
 
   // Paginación
-  getPaginatedUsers = async (page = 1, limit = 10) => {
+  getPaginatedUsers = async (options) => {
     try {
-      const options = {
-        page: parseInt(page),
-        limit: parseInt(limit),
-      };
       const users = await userModel.paginate({}, options);
 
       return users;
     } catch (error) {
-      console.log(error, "Error al realizar la paginación ");
+      logger.error(error, "Error al realizar la paginación");
     }
   };
   getUserByCart = async (cid) => {

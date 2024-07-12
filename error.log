@@ -49,3 +49,13 @@ undefined
 2024-06-15T22:34:43.481Z [31merror[39m: No se pudo restaurar la contraseña
 2024-06-15T22:35:29.172Z [31merror[39m: No se pudo restaurar la contraseña
 2024-06-15T22:35:52.380Z [31merror[39m: No se pudo restaurar la contraseña
+2024-07-12T16:12:26.724Z [31merror[39m: UserService.uploadDocuments is not a function
+2024-07-12T16:13:58.407Z [31merror[39m: UserService.uploadDocuments is not a function
+2024-07-12T16:16:04.174Z [31merror[39m: ValidationError: documents.0._id: Cast to ObjectId failed for value "GonFotoRedes.jpeg" (type string) at path "_id" because of "BSONError"No se pudieron subir los documentos
+2024-07-12T16:19:39.089Z [31merror[39m: ValidationError: documents.0._id: Cast to ObjectId failed for value "uvis-gon.jpeg" (type string) at path "_id" because of "BSONError"No se pudieron subir los documentos
+2024-07-12T16:29:30.096Z [31merror[39m: ValidationError: documents: Cast to embedded failed for value "godeco-velvet-sinFondo.png" (type string) at path "documents" because of "ObjectParameterError"No se pudieron subir los documentos
+2024-07-12T17:50:28.023Z [31merror[39m: Error al cambiar el usuario a Premium
+2024-07-12T17:51:18.339Z [31merror[39m: Error al cambiar el usuario a Premium
+2024-07-12T17:52:38.414Z [31merror[39m: Error al cambiar el usuario a Premium
+2024-07-12T20:13:48.108Z [31merror[39m: TypeError: Cannot read properties of undefined (reading 'forEach')No se pudieron subir los documentos
+2024-07-12T20:14:27.867Z [31merror[39m: TypeError: Cannot read properties of undefined (reading 'forEach')No se pudieron subir los documentos

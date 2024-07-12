@@ -19,6 +19,7 @@ import loggerRouter from "./routes/loggerRouter.js";
 import mailerRouter from "./routes/mailerRouter.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import userRouter from "./routes/userRouter.js";
 
 
 const app = express()
@@ -86,6 +87,7 @@ app.use(viewsRouter)
 app.use("/api/sessions/", sessionRouter)
 app.use("/", loggerRouter)
 app.use("/api/mailer/", mailerRouter)
+app.use('/api/users/', userRouter)
 
 //Server
 const server = app.listen(process.env.PORT, () => console.log(`Servidor Levantado en puerto: ${process.env.PORT}`))

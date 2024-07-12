@@ -1,3 +1,5 @@
+import logger from "../../../logger.js";
+import userMongoDao from "../../DAOs/Mongo/user.mongo.dao.js";
 import { createHash } from "../../utils.js";
 import userModel from "../models/userModel.js";
 
@@ -50,7 +52,7 @@ export default class UserService {
         page: parseInt(page),
         limit: parseInt(limit),
     }
-    const users = await userModel.paginate({}, options);
+    const users = await userMongoDao.getPaginatedUsers({}, options);
 
     return users
   };
@@ -63,4 +65,62 @@ export default class UserService {
     const user = await userModel.findOne({email: email})
     return user
   }
+  updateToPremium = async (userId) => {
+    try {
+        const user = await userMongoDao.getById(userId);
+        if (!user) {
+            logger.error("No se encontró el usuario");
+            return null; // o lanzar un error, según tu manejo de errores
+        }
+
+        const requiredDocuments = ['Identificacion', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
+        
+        const documentsUploaded = user.documents.map(doc => {
+            const lastDotIndex = doc.name.lastIndexOf('.')
+            const nameWithoutExtension = doc.name.slice(0, lastDotIndex)
+            return nameWithoutExtension
+        });
+
+        const hasAllDocuments = requiredDocuments.every(doc => documentsUploaded.includes(doc));
+       
+        if (hasAllDocuments) {
+            user.role = 'premium';
+        } else {
+            user.role = 'user';
+        }
+        
+        await user.save();
+        console.log(user);
+        return user;
+    } catch (error) {
+        logger.error(`${error} - No se pudo actualizar el usuario a premium`);
+        throw error;
+    }
+};
+
+  uploadDocuments = async (userId, files)=>{
+    try {
+      const user = await userMongoDao.getById(userId)
+      if (!user) {
+          logger.error("No se encontro el usuario")
+      }
+      const filesNames = files.map((file)=>{
+        const fileFormat = {
+          name: file.filename,
+          reference: file.path
+        }
+        user.documents.push(fileFormat)
+
+      })
+      console.log(user.documents);
+      console.log(user);
+
+      await user.save() 
+      return user
+  } catch (error) {
+      logger.error(error + "No se pudieron subir los documentos")
+      
+  }
+  }
+  
 }

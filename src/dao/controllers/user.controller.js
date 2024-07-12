@@ -15,6 +15,12 @@ class UserController{
     constructor(){
 
     }
+    async getById (req,res){
+        const userId = req.params.uid
+        const user = await userService.getById(userId)
+        res.send(user)   
+        console.log(user); 
+    }
     async register (req,res){
         res.status(201).send({ status: "success", message: "Usuario registrado" });
     }
@@ -135,6 +141,42 @@ class UserController{
             logger.error("Error al cambiar el rol")
         }
     } 
+    async updateToPremium (req,res){
+        try {
+            const userId = req.params.uid
+            const user = await userService.updateToPremium(userId)
+
+            res.status(200).json({
+                status: "success",
+                message: "Usuario actualizado a premium correctamente",
+                user: user
+            })
+        } catch (error) {
+            logger.error("Error al cambiar el usuario a Premium")
+            res.status(500).json({
+                status: "failure",
+                message: "Error al actualizar usuario a premium"
+            })
+        }
+    }
+    async uploadDocuments (req, res){
+        try {
+            const userId = req.params.uid
+            const files = req.files
+            const user = await userService.uploadDocuments(userId, files)
+            res.status(200).json({
+                status: "success",
+                message: "Documentos subidos correctamente",
+                user: user
+            })
+        } catch (error) {
+            logger.error(error) 
+            res.status(500).json({
+                status: "failure",
+                message: "Error al subir documentos"
+            })
+        }
+    }
   
     
 } 
