@@ -13,9 +13,15 @@ export function authUser (req, res, next){
 }
 
 export function authAdmin (req, res, next){
-  if (!req.session || !req.session.user || req.session.user.role === "admin" || req.session.user.role === "premium") {
+  if (!req.session || !req.session.user || req.session.user.role === "admin") {
     return res.redirect("/login")
   }
   next()
 }
 
+export function authAdminOrPremium (req, res, next){
+  if (!req.session || !req.session.user || req.session.user.role === "admin" || req.session.user.role === "premium") {
+    return res.redirect("/login")
+  }
+  next()
+}

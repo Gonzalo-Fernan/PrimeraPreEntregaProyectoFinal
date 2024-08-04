@@ -20,6 +20,8 @@ import mailerRouter from "./routes/mailerRouter.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import userRouter from "./routes/userRouter.js";
+import productModel from "./dao/models/products.js";
+import productsController from "./dao/controllers/products.controller.js";
 
 
 const app = express()
@@ -37,6 +39,11 @@ const getMessages = await messages.getMessages()
 //Products DB
 const productsDB = new ProductService()
 const allProductsDB = await productsDB.getAll()
+// pronbando con el modelo
+const modelProducts = new productModel()
+const productosDB = await productModel.find() 
+
+
 
 //swagger
 const swaggerOptions = {
@@ -98,17 +105,19 @@ const io = new Server(server)
 io.on("connection", (socket) => {
 
     // emitimos la lista de productos hacia el cliente (realTimeProducts.js)
-    socket.emit("allProducts", getAllProducts) 
-    
+    //socket.emit("allProducts", getAllProducts) 
+    socket.emit("allProducts", productosDB) 
+
     socket.on("addProduct", async(newProduct)=>{
         // recibimos el nuevo producto que viene del formulario y lo agregamos a la lista de productos 
-        await products.addProduct(newProduct) 
-        
+       // await products.addProduct(newProduct) 
+        await productsDB.addProduct(newProduct)
     })
     
     socket.on("delete",async(productId)=>{
         //recibimos el id del producto a eliminar y los parseamos para eliminar el producto
-       await products.deleteProduct(parseInt(productId)) 
+       //await products.deleteProduct(parseInt(productId))
+       await productsDB.deleteProduct(productId)
     })
 
     socket.on("newMessage",async (newMessage) => {

@@ -1,13 +1,17 @@
 import logger from "../../../logger.js";
 import ProductService from "../services/productService.js";
+import nodemailer from "nodemailer";
+import UserService from "../services/userService.js";
 
 const productService = new ProductService()
+const userService = new UserService()
 
 class ProductsController{
     constructor(){
 
     }
     async getAll (req,res){
+       
         try {
             const productsPAGINATE = await productService.getAll(req.query)
             res.status(200).send({status: 'success', payload: productsPAGINATE})
@@ -26,6 +30,7 @@ class ProductsController{
     }
     async addProduct(req,res){ 
         try {
+           
             const requiredFields = ["title", "description", "thumbnail", "price", "code", "stock", "category", "status"]
             const missinFields = requiredFields.filter(field => !req.body[field])
 
@@ -35,8 +40,12 @@ class ProductsController{
                     errorCode: "BAD_REQUEST",
                     description: "error al agregar el producto"
                 })
-            }
-            let newProduct = req.body
+            }  
+            const newProduct = req.body
+            
+            const userID = req.session.user.id
+            newProduct.owner = userID
+            console.log(newProduct)
             let productAdded = await productService.addProduct(newProduct)
             
             if (!productAdded) {
@@ -51,7 +60,7 @@ class ProductsController{
                 message: `${productAdded.title} agregado exitosamente`,
                  product: productAdded
                 }
-            })
+            }) 
             
         } catch (error) {
             logger.error("Error al agregar el producto")
@@ -74,14 +83,43 @@ class ProductsController{
     }
     async deleteProduct (req,res){
         try {
+            // aca si el producto esta creado por un usario premium enviarle un email con el aviso de que se elimino el producto
             let pid = req.params.pid
+            const product = await productService.getById(pid)
             let productDeleted = await productService.deleteProduct(pid)
-            res.status(200).send({status: 'success', payload: productDeleted})
+            const user = await userService.getById(product.owner)
+            
+
+            if (product.owner === "premium") {
+                const transport = nodemailer.createTransport({
+                    service: "gmail",
+                    host:"smtp.gmail.com",
+                    secure: false,
+                    port: 587,
+                    auth:{
+                    user:process.env.MAIL_USERNAME,
+                    pass:process.env.MAIL_PASSWORD
+                    }
+                })
+
+                const mail = transport.sendMail({
+                    from: `${process.env.MAIL_USERNAME}`,
+                    to: user.email,
+                    subject: "Aviso de elimminación de producto",
+                    html:` 
+                        <p>El producto fue eliminado </p>`
+                       
+                
+                })
+            } 
+  
+            
+
+            res.status(200).send({status: 'success', payload: productDeleted}) 
         } catch (error) {
             logger.error("Error al eliminar el producto seleccionado")
-        }
-        
-    }
+        }  
+    } 
 } 
 
 export default new ProductsController();

@@ -1,9 +1,9 @@
 import UserDTO from "../DTOs/user.dto.js";
 import UserService from "../services/userService.js";
 import logger from "../../../logger.js";
-import { generateToken , validateToken } from "../../utils.js";
 import nodemailer from "nodemailer";
-
+import userModel from "../models/userModel.js";
+import { sendEmail } from "../../config/mailer.config.js";
 
 
 
@@ -14,6 +14,10 @@ const userService = new UserService()
 class UserController{
     constructor(){
 
+    }
+    async getAll(req,res){
+         const allUsers = await userService.getAll()
+         res.send(allUsers) 
     }
     async getById (req,res){
         const userId = req.params.uid
@@ -28,6 +32,7 @@ class UserController{
         try {
             if(!req.user)return res.status(400).send('error')
             req.session.user = {
+                  id: req.user._id,
                   first_name: req.user.first_name,
                   last_name: req.user.last_name,
                   email: req.user.email,
@@ -130,12 +135,20 @@ class UserController{
         }  
     }
     async changeRole (req, res){
+        const {email, role} = req.body
+        
         try {
-            const { email, role } = req.body
-            const user = await userService.getByEmail(email)
-            user.role = role
-            
-            res.status(200).send("Correo enviado exitosamente")
+            const user = await userService.getByEmail(email);
+        if (!user) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+
+        // Actualiza el rol del usuario
+        await userModel.updateOne({ email: email }, { $set: { role: role } });
+
+        // Responde con éxito
+        res.status(200).send("Rol cambiado exitosamente");
+
 
         } catch (error) {
             logger.error("Error al cambiar el rol")
@@ -177,6 +190,68 @@ class UserController{
             })
         }
     }
+    async delete(req,res){
+        const email = req.params.uemail
+        const userToDelete = await userService.deleteByEmail(email)
+        res.status(200).json({
+            status: "success",
+            message: "Usuario eliminado correctamente",
+            user: userToDelete
+        })
+   }
+   async deleteUserWithNoConnection(req,res){
+    try {
+        const users = await userService.getAll()
+        const usersToDelete = users.filter(async user => {
+            // Fecha original en formato "dd/mm/yyyy, hh:mm:ss"
+            const lastConnection = user.last_connection
+
+            // Reorganizar la fecha al formato "mm/dd/yyyy hh:mm:ss"
+            const [datePart, timePart] = lastConnection.split(', ')
+            const [day, month, year] = datePart.split('/')
+            const formattedDate = `${month}/${day}/${year} ${timePart}`
+
+            // Convertir la fecha a un timestamp
+            const timestamp = Date.parse(formattedDate)
+
+            // Comparar con la fecha límite (hace dos días)
+            const twoDaysAgo = Date.now() - (2 * 24 * 60 * 60 * 1000)
+            if (timestamp < twoDaysAgo) {
+                //aca se elimina a los que no se conectan hace mas de dos dias
+                const deletedUser = await userService.deleteByEmail(user.email)
+                const emailSubject = "Eliminación por inactividad"
+                const emailBody = "<p>Se eliminó su cuenta por inactividad</p>"
+                //sendEmail(user.email, emailSubject, emailBody)
+                const transport = nodemailer.createTransport({
+                    service: "gmail",
+                    host:"smtp.gmail.com",
+                    secure: false,
+                    port: 587,
+                    auth:{
+                      user:process.env.MAIL_USERNAME,
+                      pass:process.env.MAIL_PASSWORD
+                    }
+                  })
+    
+                const mail = await transport.sendMail({
+                    from: `${process.env.MAIL_USERNAME}`,
+                    to: user.email,
+                    subject: emailSubject,
+                    html: emailBody                
+                  })   
+            }
+            })
+            
+            res.status(200).json({
+                status: "success",
+                message: "Usuarios sin conexión en los ultimos 2 dias eliminados correctamente" 
+                })
+
+    } catch (error) {
+        logger.error("Error al intentar eliminar los usuarios")
+    }
+    
+}
   
     
 } 

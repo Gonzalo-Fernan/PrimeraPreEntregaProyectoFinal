@@ -44,8 +44,7 @@ class ProductsMongoDao {
         return result
     }
     addProduct = async (product) => {
-        let formatedProdcut = DTO.get(product)
-        let result = await productModel.create(formatedProdcut)
+        let result = await productModel.create(product)
         return result
     }
     updateProduct = async (id, productData) => {

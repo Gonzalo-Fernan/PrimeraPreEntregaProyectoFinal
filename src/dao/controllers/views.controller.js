@@ -1,17 +1,27 @@
 import productModel from "../models/products.js"
 import ProductService from "../services/productService.js"
-
+import UserService from "../services/userService.js"
 
 const productsDB = new ProductService()
+const userService = new UserService()
 class ViewsController{
     constructor(){
 
+    }
+
+    async getAllUsers(req,res){
+        const users = await userService.getAll()
+        res.render("users", {users})
     }
     async home (req,res){
         res.render("home", {getAllProducts, style: "home.css"})
     }
     async realtimeProducts (req, res){
-        res.render("realTimeProducts",{style: "realTimeProducts.css"})
+        const users = await userService.getAll()
+        res.render("realTimeProducts",{users ,style: "realTimeProducts.css"})
+    }
+    async addProduct (req, res){
+        res.render("addProduct")
     }
     async chat (req,res){
         res.render("chat", {style: "chat.css"})
@@ -67,5 +77,6 @@ class ViewsController{
         res.render('mailer',{style: "mailer.css"})
     }
 } 
+
 
 export default new ViewsController();

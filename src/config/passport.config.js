@@ -4,7 +4,6 @@ import userModel from "../dao/models/userModel.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2";
 import CartService from "../dao/services/cartService.js";
-import cartsModel from "../dao/models/carts.js";
 
 
 const LocalStrategy = local.Strategy;
@@ -25,7 +24,7 @@ const initializePassport = () => {
           const cartService = new CartService()
           const cart = await cartService.createCart()
           let role = email === "adminCoder@coder.com"? "admin" : "user"
-
+          const day = new Date()
           const newUser = {
             first_name,
             last_name,
@@ -33,7 +32,8 @@ const initializePassport = () => {
             age,
             password: createHash(password),
             role,
-            cart: cart
+            cart: cart,
+            last_connection: day.toLocaleTimeString('es-ES', { day: "2-digit", month: "2-digit", year:"numeric", hour: '2-digit', minute: '2-digit', second: '2-digit' }),
           };
 
           // Guardar el usuario
@@ -57,6 +57,9 @@ const initializePassport = () => {
           if (!user) return done(null, false);
           const valid = isValidPassword(user, password);
           if (!valid) return done(null, false);
+          const day = new Date()
+          user.last_connection = day.toLocaleTimeString('es-ES', { day: "2-digit", month: "2-digit", year:"numeric", hour: '2-digit', minute: '2-digit', second: '2-digit' })
+          user.save()
 
           return done(null, user);
         } catch (error) {

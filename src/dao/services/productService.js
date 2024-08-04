@@ -1,4 +1,5 @@
-import productsMongoDao from "../../DAOs/Mongo/products.mongo.dao.js"
+import productsMongoDao from "../../DAOs/Mongo/products.mongo.dao.js";
+
 
 export default class ProductService {
 
@@ -22,8 +23,9 @@ export default class ProductService {
         let result = await productsMongoDao.updateProduct(id, productData)
         return result 
     }
-    deleteProduct = async (id) => {
+    deleteProduct = async (id) =>{
         let result = await productsMongoDao.deleteProduct(id)
         return result
     }
+
 }

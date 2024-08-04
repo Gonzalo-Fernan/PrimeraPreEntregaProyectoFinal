@@ -20,6 +20,7 @@
                     <input name="stock" type="number" placeholder="Stock" id="stock">
                     <input name="status" type="text" placeholder="Estatus" id="status">
                     <input name="category" type="text" placeholder="Categoria" id="category">
+                    
 
                     <button type="submit" id="addButton">Agregar Producto</button>
                 </form>
@@ -28,7 +29,7 @@
             <div class="deleteForm" id="deleteForm">
                 <h3>Eliminar un Producto</h3>
                 <form id="delete" action="" method="post">
-                    <input id="productId" type="number" placeholder="Ingresa el ID del Producto a eliminar">
+                    <input id="productId" placeholder="Ingresa el ID del Producto a eliminar">
                     <button type="submit">Eliminar Producto</button>
                 </form>
             </div>
@@ -43,4 +44,4 @@
 </section>
 
 <script src="/socket.io/socket.io.js" ></script>
-<script src="/js/realTimeProducts.js"></script>
+<script src="/js/realtimeproductsDB.js"></script>

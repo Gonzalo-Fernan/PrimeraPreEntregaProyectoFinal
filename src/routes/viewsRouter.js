@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { auth, authUser }  from "../middlewares/auth.js";
 import viewsController from "../dao/controllers/views.controller.js";
+
 const router = Router()
 
 router.get("/home", viewsController.home )
@@ -13,6 +14,8 @@ router.get("/register", viewsController.register)
 router.get("/login", viewsController.login)
 router.get('/restore', viewsController.restore)
 router.get('/mail', viewsController.restorePasword)
+router.get("/userManager", viewsController.getAllUsers)
+router.get("/addProduct", viewsController.addProduct )
 
   
 

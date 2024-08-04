@@ -1,0 +1,29 @@
+<section>
+    <article>
+        <h1>Administrar Usuarios</h1>
+        <ul>
+            {{#each users}}
+            <div>
+            <li>id: {{this.id}}</li>
+            <li>Nombre: {{this.first_name}}</li>
+            <li>Apellido: {{this.last_name}}</li>
+            <li>Rol: {{this.role}} 
+                    <select class="role-selector" data-id="{{this.id}}">
+                        <option>Elegir Rol</option>
+                        <option value="admin">Administrador</option>
+                        <option value="premium">Premium</option>
+                        <option value="user">Usuario</option>
+                    </select>
+                </li>
+            <li>Email: {{this.email}}</li>
+            <li>Carrito: {{this.cart}}</li>
+            <li>Ultima Conexion: {{this.last_connection}}</li>
+            <button class="eliminar" data-email="{{this.email}}">Eliminar</button>
+            <button class="cambiarRol" data-email="{{this.email}}" data-id="{{this.id}}">Cambiar Rol</button>
+            <hr>
+            </div>
+            {{/each}}
+        </ul>
+    </article>
+</section>
+<script src="/js/users.js"></script>

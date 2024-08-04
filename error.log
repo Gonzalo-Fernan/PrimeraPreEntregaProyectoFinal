@@ -59,3 +59,26 @@ undefined
 2024-07-12T17:52:38.414Z [31merror[39m: Error al cambiar el usuario a Premium
 2024-07-12T20:13:48.108Z [31merror[39m: TypeError: Cannot read properties of undefined (reading 'forEach')No se pudieron subir los documentos
 2024-07-12T20:14:27.867Z [31merror[39m: TypeError: Cannot read properties of undefined (reading 'forEach')No se pudieron subir los documentos
+2024-08-01T20:03:49.563Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:05:33.990Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:05:35.515Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:05:38.056Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:05:38.594Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:05:44.843Z [31merror[39m: Error al cambiar el rol
+2024-08-01T20:06:54.540Z [31merror[39m: Error al cambiar el rol
+2024-08-02T14:57:28.736Z [31merror[39m: Error al agregar el producto
+2024-08-02T15:00:32.473Z [31merror[39m: Error al agregar el producto
+2024-08-02T15:04:03.802Z [31merror[39m: Error al agregar el producto
+2024-08-02T15:04:25.225Z [31merror[39m: Error al agregar el producto
+2024-08-02T15:05:29.178Z [31merror[39m: Error al agregar el producto
+2024-08-02T15:06:25.842Z [31merror[39m: Error al agregar el producto
+2024-08-02T17:46:45.942Z [31merror[39m: Error al obtener los productos
+2024-08-02T17:46:59.058Z [31merror[39m: Error al obtener los productos
+2024-08-02T17:47:01.842Z [31merror[39m: Error al obtener los productos
+2024-08-02T17:47:18.444Z [31merror[39m: Error al obtener los productos
+2024-08-02T18:57:34.052Z [31merror[39m: Error al agregar el producto
+2024-08-03T02:33:37.777Z [31merror[39m: Error al obtener los mensajes
+2024-08-03T21:03:43.490Z [31merror[39m: Error al obtener el producto
+2024-08-04T00:16:09.280Z [31merror[39m: Error al intentar eliminar los usuarios
+2024-08-04T00:18:12.086Z [31merror[39m: Error al intentar eliminar los usuarios
+2024-08-04T03:06:53.364Z [31merror[39m: Error al obtener los mensajes

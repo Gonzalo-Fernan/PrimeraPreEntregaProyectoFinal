@@ -1,9 +1,11 @@
 import logger from "../../../logger.js";
 import userMongoDao from "../../DAOs/Mongo/user.mongo.dao.js";
 import { createHash } from "../../utils.js";
+import UserDTO from "../DTOs/user.dto.js";
 import userModel from "../models/userModel.js";
 
 
+const userDTO = new UserDTO()
 
 export default class UserService {
   constructor() {
@@ -12,7 +14,12 @@ export default class UserService {
 
   getAll = async () => {
     const result = await userModel.find();
-    return result;
+    const usersDTOs = []
+    result.map((user)=>{
+      const updatedUser = userDTO.get(user)
+      usersDTOs.push(updatedUser)
+    })
+      return usersDTOs
   };
 
   getById = async (id) => {
@@ -39,6 +46,10 @@ export default class UserService {
     const result = await userModel.deleteOne({ _id: id });
     return result;
   };
+  deleteByEmail= async (email) =>{
+    const userToDelete = await userModel.deleteOne({email: email})
+    return userToDelete;
+  }
 
   // Buscar con carritos incluidos
   getAllUsersWithCart = async () => {

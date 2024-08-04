@@ -30,7 +30,7 @@ const schema = new mongoose.Schema({
             reference: String
         }
     ],
-    last_connection: Date
+    last_connection: String
 })
 schema.plugin(mongoosePaginate)
 const userModel = mongoose.model(collection,schema);

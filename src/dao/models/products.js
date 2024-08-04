@@ -40,8 +40,7 @@ const schema = new Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
-        default: "admin"
+        ref: 'Users', 
     }
 
 })

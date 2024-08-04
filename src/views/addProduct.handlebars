@@ -1,0 +1,21 @@
+<section>
+    <article>
+        <h2>Agregar un producto a la base de datos </h2>
+        <div>
+            <form action="/addProduct" method="post" id="productsForm">
+                <input name="title" type="text" placeholder="Nombre" id="title"><br>
+                <input name="description" type="text" placeholder="Descripcion" id="description"><br>
+                <input name="price" type="number" placeholder="Precio" id="price"><br>
+                <input name="thumbnail" type="text" placeholder="Miniatura" id="thumbnail"><br>
+                <input name="code" type="number" placeholder="Codigo" id="code"><br>
+                <input name="stock" type="number" placeholder="Stock" id="stock"><br>
+                <input name="status" type="text" placeholder="Estatus" id="status"><br>
+                <input name="category" type="text" placeholder="Categoria" id="category"><br>
+
+                <button type="submit" id="addButton">Agregar Producto</button>
+            </form>
+        </div>
+    </article>
+</section>
+
+<script src="/js/addProduct.js"></script>
