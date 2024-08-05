@@ -21,12 +21,12 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import userRouter from "./routes/userRouter.js";
 import productModel from "./dao/models/products.js";
-import productsController from "./dao/controllers/products.controller.js";
+
 
 
 const app = express()
 const PATH = "./src/data/products.json"
-const DB_URL= 'mongodb+srv://gondev:4822217@clustercoder.rfuiylg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterCoder'
+const PORT = process.env.PORT || 8080;
 //conexion con la base de datos
 dbConnection();
 
@@ -72,7 +72,7 @@ app.set("view engine", "handlebars")
 app.use(cookieParser())
 app.use(session({
       store: new MongoStore({
-        mongoUrl: DB_URL,
+        mongoUrl: process.env.MONGO_URL,
         ttl: 3600,
       }),
       secret: "Secret",
@@ -97,7 +97,7 @@ app.use("/api/mailer/", mailerRouter)
 app.use('/api/users/', userRouter)
 
 //Server
-const server = app.listen(process.env.PORT, () => console.log(`Servidor Levantado en puerto: ${process.env.PORT}`))
+const server = app.listen(PORT, () => console.log(`Servidor Levantado en puerto: ${PORT}`))
 const io = new Server(server)
 
 

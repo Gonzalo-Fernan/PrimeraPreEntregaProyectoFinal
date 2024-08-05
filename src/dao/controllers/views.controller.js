@@ -22,7 +22,8 @@ class ViewsController{
     }
     }
     async home (req,res){
-        res.render("home", {getAllProducts, style: "home.css"})
+        const products = await productsDB.getProducts()
+        res.render("home", {products, style: "home.css"})
     }
     async realtimeProducts (req, res){
         const users = await userService.getAll()

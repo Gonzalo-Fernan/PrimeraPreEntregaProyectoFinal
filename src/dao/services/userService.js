@@ -13,75 +13,116 @@ export default class UserService {
   }
 
   getAll = async () => {
-    const result = await userModel.find();
-    const usersDTOs = []
-    result.map((user)=>{
-      const updatedUser = userDTO.get(user)
-      usersDTOs.push(updatedUser)
-    })
-      return usersDTOs
-  };
+    try {
+      const result = await userMongoDao.getAll()
+      const usersDTOs = []
+      result.map((user)=>{
+        const updatedUser = userDTO.get(user)
+        usersDTOs.push(updatedUser)
+      })
+        return usersDTOs
+      
+    } catch (error) {
+      logger.error("Error al obtener los usuarios")
+    }
+  }
 
   getById = async (id) => {
-    const result = await userModel.findById(id);
-    return result;
-  };
+    try {
+      const result = await userMongoDao.getById(id)
+      return result
+    } catch (error) {
+      logger.error("Error al obtener el usuario:") 
+    }
+  }
 
   createUser = async (userData) => {
-      userData.password = createHash(userData.password);
-      const result = await userModel.create(userData);
+    try {
+      const result = await userMongoDao.createUser(userData)
       return result
-  };
+      
+    } catch (error) {
+      logger.error("Error al crear el usuario")
+    }
+  }
 
   updateUser = async (id, userData) => {
-    // Hashear la contraseña antes de actualizar el usuario
-      if (userData.password) {
-        userData.password = createHash(userData.password);
-      }
-      const result = await userModel.updateOne({ _id: id }, { $set: userData });
+    try {
+      const result = await userMongoDao.updateUser(id,userData)
       return result
+      
+    } catch (error) {
+      logger.error("Error al actualizar el usuario")
+    }
   }
 
   deleteUser = async (id) => {
-    const result = await userModel.deleteOne({ _id: id });
-    return result;
-  };
+    try {
+      const result = await userMongoDao.deleteUser(id)
+      return result
+      
+    } catch (error) {
+      logger.error("Error al eliminar el usuario")
+    }
+  }
   deleteByEmail= async (email) =>{
-    const userToDelete = await userModel.deleteOne({email: email})
-    return userToDelete;
+    try {
+      const userToDelete = await userModel.deleteOne({email: email})
+      return userToDelete;
+      
+    } catch (error) {
+      logger.error("Error al eliminar el usuario")
+    }
   }
 
   // Buscar con carritos incluidos
   getAllUsersWithCart = async () => {
+    try {
       const result = await userModel.find().populate("cart.product")
       return result;
-  };
+      
+    } catch (error) {
+      logger.error("Error al obtener los usuarios")
+    }
+  }
 
   // Paginación
   getPaginatedUsers = async (page = 1, limit = 10) => {
-    const options = {
-        page: parseInt(page),
-        limit: parseInt(limit),
+    try {
+      const options = {
+          page: parseInt(page),
+          limit: parseInt(limit),
+      }
+      const users = await userMongoDao.getPaginatedUsers({}, options);
+      return users
+    } catch (error) {
+      logger.error("Error al obtener los usuarios")
     }
-    const users = await userMongoDao.getPaginatedUsers({}, options);
-
-    return users
-  };
+  }
   getUserByCart = async (cid) => {
-    const user = await userModel.findOne({cart:cid})
+    try {
+      const user = await userModel.findOne({cart:cid})
+      return user
+    } catch (error) {
+      logger.error("Error al obtener el usuario")
+    }
 
-    return user
-  };
+  }
   getByEmail = async (email) =>{
-    const user = await userModel.findOne({email: email})
-    return user
+    try {
+      const user = await userModel.findOne({email: email})
+      return user
+      
+    } catch (error) {
+      logger.error("Error al obtener el usuario")
+    }
   }
   updateToPremium = async (userId) => {
     try {
         const user = await userMongoDao.getById(userId);
         if (!user) {
             logger.error("No se encontró el usuario");
-            return null; // o lanzar un error, según tu manejo de errores
+            return null
         }
 
         const requiredDocuments = ['Identificacion', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
@@ -92,22 +133,21 @@ export default class UserService {
             return nameWithoutExtension
         });
 
-        const hasAllDocuments = requiredDocuments.every(doc => documentsUploaded.includes(doc));
+        const hasAllDocuments = requiredDocuments.every(doc => documentsUploaded.includes(doc))
        
         if (hasAllDocuments) {
-            user.role = 'premium';
+            user.role = 'premium'
         } else {
-            user.role = 'user';
+            user.role = 'user'
         }
         
-        await user.save();
-        console.log(user);
+        await user.save()
+        console.log(user)
         return user;
     } catch (error) {
-        logger.error(`${error} - No se pudo actualizar el usuario a premium`);
-        throw error;
+        logger.error(`${error} - No se pudo actualizar el usuario a premium`)
     }
-};
+  }
 
   uploadDocuments = async (userId, files)=>{
     try {
@@ -128,10 +168,10 @@ export default class UserService {
 
       await user.save() 
       return user
-  } catch (error) {
+    } catch (error) {
       logger.error(error + "No se pudieron subir los documentos")
       
-  }
+     }
   }
   
 }

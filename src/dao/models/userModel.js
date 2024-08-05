@@ -13,7 +13,10 @@ const schema = new mongoose.Schema({
         type: String,
         unique :true
     },
-    age:Number,
+    age:{
+       type: Number,
+        min:[1]   
+    },
     password:String,
     role:{
         type: String,

@@ -2,9 +2,9 @@
     <h1 class="title"> Productos </h1>
     <article class="listConteiner">
         <ul class="productList">
-            {{#each getAllProducts}}
+            {{#each products}}
                 <div class="productConteiner">
-                    <li>id: {{this.id}}</li>
+                    <li>id: {{this._id}}</li>
                     <li class="name">Nombre: {{this.title}}</li>
                     <li>Descripcion: {{this.description}}</li>
                     <li>Precio: {{this.price}}</li>

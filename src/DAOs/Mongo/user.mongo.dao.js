@@ -28,18 +28,12 @@ class UserMongoDao {
 
   updateUser = async (id, userData) => {
     // Hashear la contraseña antes de actualizar el usuario
-    try {
       if (userData.password) {
         userData.password = createHash(userData.password);
       }
       const result = await userModel.updateOne({ _id: id }, { $set: userData });
       return result;
-
-    } catch (error) {
-      console.log(error , "No se pudo actualizaer el usuario seleccionado");
-    }
-    
-  };
+  }
 
   deleteUser = async (id) => {
     const result = await userModel.deleteOne({ _id: id });

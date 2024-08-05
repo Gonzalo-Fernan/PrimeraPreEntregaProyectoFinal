@@ -1,20 +1,20 @@
 import { Router } from "express";
-import { auth, authAdminOrPremium, authUser }  from "../middlewares/auth.js";
+import { auth, authAdmin, authAdminOrPremium, authUser }  from "../middlewares/auth.js";
 import viewsController from "../dao/controllers/views.controller.js";
 
 const router = Router()
 
-router.get("/home", viewsController.home )
-router.get("/realtimeproducts", auth, viewsController.realtimeProducts)
-router.get("/chat", authUser, viewsController.chat)
+router.get("/home", viewsController.home)
+router.get("/realtimeproducts", authAdmin, viewsController.realtimeProducts)
+router.get("/chat", auth, viewsController.chat)
 router.get("/products", auth, viewsController.products) 
 router.get("/cart/:cid",auth, viewsController.cartById)
 router.get("/products/:pid", auth, viewsController.productDetail) 
 router.get("/register", viewsController.register)
 router.get("/login", viewsController.login)
-router.get('/restore', viewsController.restore)
-router.get('/mail', viewsController.restorePasword)
-router.get("/userManager", viewsController.getAllUsers)
+router.get("/restore", viewsController.restore)
+router.get("/mail", viewsController.restorePasword)
+router.get("/userManager", authAdmin, viewsController.getAllUsers)
 router.get("/addProduct", authAdminOrPremium, viewsController.addProduct )
 
   

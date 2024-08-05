@@ -5,9 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const productId = button.getAttribute("data-prod");
         const cartId = button.getAttribute("data-cart");
         button.addEventListener("click", () => {
-            console.log(cartId);
-            console.log(productId);
-        
+            
+            Swal.fire({
+                title: 'Producto agregado al carrito',
+                text: 'Ingresá a tu carrito para ver tus productos!',
+                confirmButtonText: 'Aceptar'
+            })
+            
             fetch(`/api/carts/${cartId}/products/${productId}`, {
                 method: "POST",
                 headers: {

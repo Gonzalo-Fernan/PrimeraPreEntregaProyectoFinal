@@ -106,3 +106,25 @@ section {
         font-size: 20px;
     }
 }
+.noProductsConteiner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    nav{
+        width: 100%;
+    }
+}
+
+.noProducts{
+    width: 100%;
+    text-align: center;
+    display:  flex;
+    align-items: center;
+    justify-content: center;
+    h2{
+        color: white;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 22px;
+    }
+}

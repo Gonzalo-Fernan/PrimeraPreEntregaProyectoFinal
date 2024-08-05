@@ -17,10 +17,12 @@ const schema = new Schema({
     code: {
         type: Number,
         required: true,
+        min: [1] 
     },
     price: {
         type: Number,
         required: true,
+        min: [1] 
     },
     status: {
         type: Boolean,
@@ -29,6 +31,7 @@ const schema = new Schema({
     stock: {
         type: Number,
         required: true,
+        min: [1] 
     },
     thumbnails: {
         type: [String],

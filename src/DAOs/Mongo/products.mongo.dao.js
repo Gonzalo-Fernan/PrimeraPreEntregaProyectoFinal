@@ -7,6 +7,10 @@ class ProductsMongoDao {
     constructor(){
 
     }
+    getProducts = async (id) => {
+        let result = await productModel.find().lean()
+        return result
+    }
     getAll = async (params)=>{
       try{
             const {

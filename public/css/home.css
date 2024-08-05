@@ -6,7 +6,7 @@
 
 .mainConteiner{
     width: 100vw;
-    height: 100vh;
+    height: fit-content;
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -31,15 +31,18 @@
 .productList{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     list-style: none;
     padding-left: 50px;
    
 }
 .productConteiner{
+    width: 500px;
     padding: 20px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 10px;
     align-items: start;
     justify-content: center;
