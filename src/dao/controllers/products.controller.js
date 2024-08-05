@@ -42,10 +42,9 @@ class ProductsController{
                 })
             }  
             const newProduct = req.body
-            
             const userID = req.session.user.id
             newProduct.owner = userID
-            console.log(newProduct)
+            
             let productAdded = await productService.addProduct(newProduct)
             
             if (!productAdded) {
@@ -57,8 +56,8 @@ class ProductsController{
             }
 
             res.status(201).json({status: 'success', payload: {
-                message: `${productAdded.title} agregado exitosamente`,
-                 product: productAdded
+                message: `${newProduct.title} agregado exitosamente`,
+                 product: newProduct
                 }
             }) 
             
@@ -88,9 +87,9 @@ class ProductsController{
             const product = await productService.getById(pid)
             let productDeleted = await productService.deleteProduct(pid)
             const user = await userService.getById(product.owner)
+            const role = user.role
             
-
-            if (product.owner === "premium") {
+            if (role === "premium") {
                 const transport = nodemailer.createTransport({
                     service: "gmail",
                     host:"smtp.gmail.com",
@@ -107,14 +106,9 @@ class ProductsController{
                     to: user.email,
                     subject: "Aviso de elimminación de producto",
                     html:` 
-                        <p>El producto fue eliminado </p>`
-                       
-                
+                        <p>El producto ${product.title} fue eliminado </p>`,
                 })
             } 
-  
-            
-
             res.status(200).send({status: 'success', payload: productDeleted}) 
         } catch (error) {
             logger.error("Error al eliminar el producto seleccionado")

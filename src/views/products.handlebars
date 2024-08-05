@@ -6,6 +6,8 @@
             <p>{{user.first_name}} {{user.last_name}}</p>
             <p>Rol: {{user.role}}</p>
             <a href="http://localhost:8080/api/sessions/logout"><button class="logout" id="logout">Cerrar Sesion</button></a>
+            <a href="http://localhost:8080/cart/{{user.cart}}"><button class="logout" id="logout">Ir al carrito</button></a>
+            
         </div>
         <aside>
             <h2>Filtros</h2>
@@ -25,11 +27,12 @@
         <div class="productsInnerConteiner"> 
                 {{#each productsPAGINATE.docs}}
             <div class="products">
+                    <li>{{this._id}}</li>
                     <h2><strong>{{this.title}}</strong> </h2>
                     <li><strong>Precio:</strong> {{this.price}}</li>
                     <li><strong>Descripción:</strong> {{this.description}}</li>
                     <li><strong>Categoria:</strong> {{this.category}}</li>
-                <button class="agregar">Agregar al Carrito</button>
+                <button class="agregar" data-prod="{{this._id}}" data-cart="{{../user.cart}}">Agregar al Carrito</button>
                 <button class="detalle"><a href="http://localhost:8080/products/{{this._id}}">Ir a detalle de producto</a></button>
 
             </div>
@@ -50,11 +53,11 @@
         <h2>No hay productos para mostrar</h2>
         {{/if}}
     </article> 
-
 </section>    
+
+
+
 
 <script src="/socket.io/socket.io.js" ></script>
 <script src="/js/products.js"></script>
-
-
 

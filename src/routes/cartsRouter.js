@@ -8,7 +8,7 @@ export default cartsRouter
 
 
 cartsRouter.get("/", cartController.get) //Aceder a todos los carritos
-cartsRouter.get("/:cid/", cartController.getById)//Acceder al carrito seleccionado
+cartsRouter.get("/:cid", cartController.getById)//Acceder al carrito seleccionado
 cartsRouter.post("/", cartController.create)//Agregar un carrito nuevo
 cartsRouter.post("/:cid/products/:pid", cartController.add)//Agregar un producto al carrito seleccionado
 cartsRouter.delete("/:cid/products/:pid", cartController.delete)//Eliminar un producto del carrito seleccionado 

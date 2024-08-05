@@ -3,7 +3,7 @@ import UserService from "../services/userService.js";
 import logger from "../../../logger.js";
 import nodemailer from "nodemailer";
 import userModel from "../models/userModel.js";
-import { sendEmail } from "../../config/mailer.config.js";
+
 
 
 
@@ -16,14 +16,23 @@ class UserController{
 
     }
     async getAll(req,res){
-         const allUsers = await userService.getAll()
-         res.send(allUsers) 
+        try {
+            const allUsers = await userService.getAll()
+            res.send(allUsers) 
+            
+        } catch (error) {
+            logger.error("Error al obtener los usuarios")
+        }
     }
     async getById (req,res){
-        const userId = req.params.uid
-        const user = await userService.getById(userId)
-        res.send(user)   
-        console.log(user); 
+        try {
+            const userId = req.params.uid
+            const user = await userService.getById(userId)
+            res.send(user)   
+            
+        } catch (error) {
+            logger.error("Error al obtener el usuario")
+        }
     }
     async register (req,res){
         res.status(201).send({ status: "success", message: "Usuario registrado" });
@@ -139,16 +148,14 @@ class UserController{
         
         try {
             const user = await userService.getByEmail(email);
-        if (!user) {
-            return res.status(404).send("Usuario no encontrado");
-        }
+            if (!user) {
+                return res.status(404).send("Usuario no encontrado");
+            }
 
-        // Actualiza el rol del usuario
-        await userModel.updateOne({ email: email }, { $set: { role: role } });
+            // Actualiza el rol del usuario
+            await userModel.updateOne({ email: email }, { $set: { role: role } });
 
-        // Responde con éxito
-        res.status(200).send("Rol cambiado exitosamente");
-
+            res.status(200).send("Rol cambiado exitosamente");
 
         } catch (error) {
             logger.error("Error al cambiar el rol")
@@ -191,13 +198,18 @@ class UserController{
         }
     }
     async delete(req,res){
-        const email = req.params.uemail
-        const userToDelete = await userService.deleteByEmail(email)
-        res.status(200).json({
-            status: "success",
-            message: "Usuario eliminado correctamente",
-            user: userToDelete
-        })
+        try {
+            const email = req.params.uemail
+            const userToDelete = await userService.deleteByEmail(email)
+            res.status(200).json({
+                status: "success",
+                message: "Usuario eliminado correctamente",
+                user: userToDelete
+            })
+            
+        } catch (error) {
+            logger.error("Error al eliminar el usuario")
+        }
    }
    async deleteUserWithNoConnection(req,res){
     try {
@@ -221,7 +233,7 @@ class UserController{
                 const deletedUser = await userService.deleteByEmail(user.email)
                 const emailSubject = "Eliminación por inactividad"
                 const emailBody = "<p>Se eliminó su cuenta por inactividad</p>"
-                //sendEmail(user.email, emailSubject, emailBody)
+                
                 const transport = nodemailer.createTransport({
                     service: "gmail",
                     host:"smtp.gmail.com",

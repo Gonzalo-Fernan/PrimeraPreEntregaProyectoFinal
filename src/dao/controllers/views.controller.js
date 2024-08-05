@@ -1,17 +1,25 @@
 import productModel from "../models/products.js"
 import ProductService from "../services/productService.js"
 import UserService from "../services/userService.js"
+import CartService from "../services/cartService.js"
+import logger from "../../../logger.js"
 
 const productsDB = new ProductService()
 const userService = new UserService()
+const cartService = new CartService()
 class ViewsController{
     constructor(){
 
     }
 
     async getAllUsers(req,res){
+    try {
         const users = await userService.getAll()
         res.render("users", {users})
+        
+    } catch (error) {
+        logger.error("Error al obtener los usuarios")
+    }
     }
     async home (req,res){
         res.render("home", {getAllProducts, style: "home.css"})
@@ -53,9 +61,7 @@ class ViewsController{
     }
     async cartById (req,res){
         let cid = req.params.cid
-
-        let selectedCart = await cartsDB.getCartById(cid) 
-       
+        let selectedCart = await cartService.getById(cid)
         res.render("cart", {selectedCart, style:"cart.css"})
     }
     async productDetail (req,res){
