@@ -5,21 +5,21 @@
             <h2>Bienvenido/a</h2>
             <p>{{user.first_name}} {{user.last_name}}</p>
             <p>Rol: {{user.role}}</p>
-            <a href="http://localhost:8080/api/sessions/logout"><button class="logout" id="logout">Cerrar Sesion</button></a>
-            <a href="http://localhost:8080/cart/{{user.cart}}"><button class="logout" id="logout">Ir al carrito</button></a>
+            <a href="/api/sessions/logout"><button class="logout" id="logout">Cerrar Sesion</button></a>
+            <a href="/cart/{{user.cart}}"><button class="logout" id="logout">Ir al carrito</button></a>
             
         </div>
         <aside>
             <h2>Filtros</h2>
             <label for="filtroCategoria">Por Categoría</label>
-           <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&category=merceria">Merceria</a></button>
-            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&category=maquinas">Maquinas</a></button>
+           <button class="orden"><a href="/products?page={{productsPAGINATE.currentPage}}&category=merceria">Merceria</a></button>
+            <button class="orden"><a href="/products?page={{productsPAGINATE.currentPage}}&category=maquinas">Maquinas</a></button>
         </aside>
         <aside>
          <h2>Ordenar</h2>
             <label for="ordenarPrecio">Por Precio</label>
-            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&sort=asc">Ascendente</a></button>
-            <button class="orden"><a href="http://localhost:8080/products?page={{productsPAGINATE.currentPage}}&sort=desc">Descendente</a></button>
+            <button class="orden"><a href="/products?page={{productsPAGINATE.currentPage}}&sort=asc">Ascendente</a></button>
+            <button class="orden"><a href="/products?page={{productsPAGINATE.currentPage}}&sort=desc">Descendente</a></button>
         </aside>
     </nav>
     <article class="productsConteiner" id="productsConteiner">
@@ -32,7 +32,7 @@
                     <li><strong>Descripción:</strong> {{this.description}}</li>
                     <li><strong>Categoria:</strong> {{this.category}}</li>
                 <button class="agregar" data-prod="{{this._id}}" data-cart="{{../user.cart}}">Agregar al Carrito</button>
-                <button class="detalle"><a href="http://localhost:8080/products/{{this._id}}">Ir a detalle de producto</a></button>
+                <button class="detalle"><a href="/products/{{this._id}}">Ir a detalle de producto</a></button>
 
             </div>
                 {{/each}}

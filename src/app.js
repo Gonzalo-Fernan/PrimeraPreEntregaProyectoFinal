@@ -24,11 +24,14 @@ import productModel from "./dao/models/products.js";
 
 
 
+
 const app = express()
 const PATH = "./src/data/products.json"
 const PORT = process.env.PORT || 8080;
 //conexion con la base de datos
-dbConnection();
+dbConnection()
+
+
 
 //Product Manager(fileSistem)
 const products = new ProductManager(PATH)
